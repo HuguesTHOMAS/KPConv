@@ -24,8 +24,6 @@ A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](.
 
 We provide scripts for many experiments. The instructions to run these experiments are in the [doc](./doc) folder.
 
-#### Experiments guides
-
 * [Object Classification](./doc/object_classification_guide.md): Instructions to train KP-CNN on an object classification
  task (Modelnet40).
  
