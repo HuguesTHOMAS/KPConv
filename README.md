@@ -20,7 +20,7 @@ We provide scripts for many experiments:
 * Visualization of learned kernel deformations
 * Visualization of Effective Receptive Fields
 
-You will find more details on how to run these experiments and how to train a KPConv network on your own data in the `doc` folder
+You will find more details on how to run these experiments and how to train a KPConv network on your own data in the [INSTALL.md](./doc) folder
 
 ## License
 Our code is released under Apache 2.0 License (see LICENSE file for details).
