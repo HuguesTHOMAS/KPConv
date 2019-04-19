@@ -48,7 +48,7 @@ We provide scripts for many experiments. The instructions to run these experimen
 
 ## Acknowledgment
 
-Our uses the <a href="https://github.com/jlblancoc/nanoflann">nanoflann</a> library.
+Our code uses the <a href="https://github.com/jlblancoc/nanoflann">nanoflann</a> library.
 
 ## License
 Our code is released under MIT License (see LICENSE file for details).
