@@ -129,10 +129,7 @@ class S3DISDataset(Dataset):
         ##########################
 
         # Path of the folder containing ply files
-        if 'SSH_CLIENT' in os.environ.keys():
-            self.path = '/home/hugues/Data/Stanford3d/Stanford3dDataset_v1.2'
-        else:
-            self.path = '/media/hugues/Data/These/Datasets/Stanford3d/Stanford3dDataset_v1.2'
+        self.path = 'Data/Stanford3d/Stanford3dDataset_v1.2'
 
         # Path of the training files
         self.train_path = 'original_ply'
