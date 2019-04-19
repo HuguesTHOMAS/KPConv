@@ -147,10 +147,7 @@ class ShapeNetPartDataset(Dataset):
         ##########################
 
         # Path of the folder containing ply files
-        if 'SSH_CLIENT' in os.environ.keys():
-            self.path = '/home/hugues/Data/ShapeNetPart/shapenetcore_partanno_segmentation_benchmark_v0'
-        else:
-            self.path = '../1-KPConv/datasets/data/shapenetcore_partanno_segmentation_benchmark_v0'
+        self.path = 'Data/ShapeNetPart/shapenetcore_partanno_segmentation_benchmark_v0'
 
         # Number of threads
         self.num_threads = input_threads
