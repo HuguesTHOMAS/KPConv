@@ -12,7 +12,7 @@ A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](.
 
 We provide scripts for many experiments. The instructions to run these experiments are in the [doc](./doc) folder.
 
-#### Experiments instructions
+#### Experiments guides
 
 * [Object Classification](./doc/object_classification_guide.md): Instructions to train KP-CNN on a shape classification
  task (Modelnet40).
@@ -23,17 +23,17 @@ We provide scripts for many experiments. The instructions to run these experimen
 * [Scene Segmentation](./doc/scene_segmentation_guide.md): Instructions to train KP-FCNN on several scene segmentation 
  tasks (S3DIS, Scannet, Semantic3D, NPM3D).
  
-* Training our network on your own data (see [TODO](./doc/TODO.md)).
+* Training our network on your own data (TODO).
 
-* Test of any of the models (see [TODO](./doc/TODO.md)).
+* Test of any of the models (TODO).
 
-* Plot many values (time, loss, validation accuracies, etc.) for any training log (see [TODO](./doc/TODO.md)).
+* Plot many values (time, loss, validation accuracies, etc.) for any training log (TODO).
 
-* Visualization of learned features (see [TODO](./doc/TODO.md)).
+* Visualization of learned features (TODO).
 
-* Visualization of learned kernel deformations (see [TODO](./doc/TODO.md)).
+* Visualization of learned kernel deformations (TODO).
 
-* Visualization of Effective Receptive Fields (see [TODO](./doc/TODO.md)).
+* Visualization of Effective Receptive Fields (TODO).
  
 
  
