@@ -1274,3 +1274,4 @@ def multi_segmentation_loss(logits, inputs, batch_average=False):
         # Option 2 : First mean on each batch, then mean (correspond to weighted sum with batch proportions)
         stacked_weights = inputs['batch_weights']
         return tf.reduce_mean(stacked_weights * cross_entropy, name='xentropy_mean')
+

@@ -875,3 +875,4 @@ class ShapeNetPartDataset(Dataset):
         time.sleep(0.5)
 
         self.flat_inputs = [tf.Variable(in_np, trainable=False) for in_np in inputs]
+

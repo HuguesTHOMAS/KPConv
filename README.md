@@ -1,5 +1,5 @@
 
-![Intro figure](https://github.com/HuguesTHOMAS/KPConv/doc/KPConv_intro.png)
+![Intro figure](https://github.com/HuguesTHOMAS/KPConv/blob/master/doc/KPConv_intro.png)
 
 ## KPConv: Flexible and Deformable Convolution for Point Clouds
 

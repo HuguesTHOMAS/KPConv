@@ -232,51 +232,6 @@ class KernelPointCNN:
 
 
 
-"""
-Hi,
-
-As explained in my last mail, I implemented a deformable KPConv following the two articles DeformableConv and DeformableConvV2. This mail details the new desing.
-
-First, I modified our KPConv design so that it would be adapted to deformable convolution differences. Here are the differences:
-Until now, the KPConv had modes (closest, gaussian). I decided to separate the mode in two notions : the influence function (which can be gaussian or constant) and the aggregation mode (which can be summation or closest point). The previous Gfix mode thus corresponds to a Gaussian influence with summation aggregation and the previous Closest mode to a constant influence with closest aggregation
-
-Following the billinear interpolation done in DeformableConv, I added a new influence function called "linear" and defined as h(x, x_k) = max(0, 1 - ||x - x_k|| / KP_extent). This influence decrease linearly with the distance (like the Gaussian) and saturate at zero when distance is larger than the parameter called "KP_extent".
-
-The new parameter KP_extent controls the influence radius of each Kernel Point. It is used to define the influence functions
-Extent of the linear influence like described above.
-Sigma of the Gaussian: sigma = 0.3 * KP_Extent.
-Range of the constant: influence is set to 1 if ||x - x_k|| < KP_extent, 0 otherwise
-KP_extent is set to 1.0 * grid_dl, in the same way as the DeformableConv article, whose bilinear interpolation has a range of 1 pixel.
-For efficiency, any neighbor "x" whose distance to all kernel points is greater than KP_extent is ignored. This does not change anything in the normal KPConv but is crucial for deformable KPConv (see below)
-This new design is more clear than the "modes" we defined before, and is suited for the deformable convolutions. Now that we control the KP_extent with a parameter, we can set the positions of the kernel points according to it (I currently ensure that the kernel points are placed at 1.5 * KP_extent from the center of the kernel). Our old parameter called "density_parameter" (ratio between the input neighborhood radius and the subsampling grid size) now only controls the radius of the input sphere, while KP_extent controls the radius of our kernel effectively applied. I normal KPConv, the density parameter is useless, but it will be used for deformable convolutions.
-
-Then, I defined a deformable KPConv operator:
-The first step is to apply a normal KPConv that outputs a 3D offset for each kernel points. Optionally we can also output a set of weights (called modulations), that will modulated the impact of each offsetted KP. Like in the DeformableConv article, we scale the gradient of these features by 0.1. A slight difference with the original article, I rescale the offsets by a multiplication with KP_extent, so that the learned offsets are independant from the layer scale.
-
-Now the second step is to apply a deformed KPConv. We simply compute the distances from input neighbors to the deformed kernel points instead of the original ones, and the rest of the convolution is almost identical (the only other difference is the modulation that is optionally applied when summing the kernel point features)
-
-As we notice in the DeformableConv paper, one of the main strength of the deformable kernel is its ability to behave like an atrous convolution with a wider receptive field. This is where the "density_parameter" comes in handy. We cannot afford to compute the distances to every points of the input, so we still need to bound the possible range of a deformable KPConv, but we can set the density parameter to 4.0, meaning that the deformed kernel points will be able to "see" input points up to 4 times the subsampling grid size
-
-applied KP weights to every neighbors at this location, but some of the weights would be zeros in case of closest mode, or close to zeros in case of gaussian mode. I decided to split 
-
-
-"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

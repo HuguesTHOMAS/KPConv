@@ -324,9 +324,3 @@ class KernelPointFCNN:
 
 
 
-
-
-
-
-
-

@@ -143,3 +143,4 @@ def IoU_from_confusions(confusions):
     IoU += mask * mIoU
 
     return IoU
+
