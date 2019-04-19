@@ -7,15 +7,13 @@ Created by Hugues THOMAS
 
 [arXiv](https://arxiv.org/abs/1904.08889)
 ```
-@inproceedings{su18splatnet,
-  author={Su, Hang and Jampani, Varun and Sun, Deqing and Maji, Subhransu and Kalogerakis, Evangelos and Yang, Ming-Hsuan and Kautz, Jan},
-  title     = {{SPLATN}et: Sparse Lattice Networks for Point Cloud Processing},
-  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
-  pages     = {2530--2539},
-  year      = {2018}
+@article{thomas2017KPConv,
+    Author = {Thomas, Hugues and Qi, Charles R., Deschaud, Jean-Emmanuel and Marcotegui, Beatriz and Goulette, Fran{\c{c}}ois and Guibas, Leonidas J.},
+    Title = {KPConv: Flexible and Deformable Convolution for Point Clouds},
+    Journal = {arXiv preprint arXiv:1904.08889},
+    Year = {2019}
 }
 ```
-
 
 ## Installation
 
