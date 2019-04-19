@@ -95,3 +95,4 @@ Our code is released under Apache 2.0 License (see LICENSE file for details).
 * 11/12/2018: Added general visualization code.
 * 10/12/2018: Added training code for S3DIS and general test code.
 * 26/11/2018: Added training code for ModelNet40/ShapeNetPart.
+

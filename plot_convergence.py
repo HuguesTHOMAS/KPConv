@@ -1418,3 +1418,5 @@ if __name__ == '__main__':
         compare_convergences_segment(dataset, logs, logs_names)
     else:
         raise ValueError('Unsupported dataset : ' + plot_dataset)
+
+
