@@ -15,12 +15,17 @@ Simply run the following script to start the training:
         
 This file contains a configuration subclass `ModelNet40Config`, inherited from the general configuration class `Config` defined in `utils/config.py`. The value of every parameter can be modified in the subclass. The first run of this script will precompute structures for the dataset which might take some time.
         
-#### Plot a logged training
+### Plot a logged training
 
-When you start a new training, it is saved in a `results` folder. A dated log folder will be created, containing many 
-information including loss values, validation metrics, model snapshots, etc.
+When you start a new training, it is saved in a `results` folder. A dated log folder will be created, containing many information including loss values, validation metrics, model snapshots, etc.
 
 In `plot_convergence.py`, you will find detailed comments explaining how to choose which training log you want to plot. Follow them and then run the script :
 
         python3 plot_convergence.py
 
+
+### Test the trained model
+
+The test script is the same for all models (segmentation or classification). In `test_any_model.py`, you will find detailed comments explaining how to choose which logged trained model you want to test. Follow them and then run the script :
+
+        python3 test_any_model.py

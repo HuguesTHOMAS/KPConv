@@ -1,14 +1,4 @@
 
-![Intro figure](https://github.com/HuguesTHOMAS/KPConv/blob/master/doc/Github_intro.png)
-
-Created by Hugues THOMAS
-
-## Installation
-
-A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](./INSTALL.md). Windows is currently not supported as the code uses tensorflow custom operations.
-
-N.B. If you want to place your data anywhere else, you just have to change the variable `self.path` of `ShapeNetPartDataset` class (in the file `datasets/ShapeNetPart.py`).
-
 ## Object Part Segmentation on ShapeNetPart
 
 ### Data
@@ -22,35 +12,18 @@ Simply run the following script to start the training:
         python3 training_ShapeNetPart.py
         
 Similarly to ModelNet40 training, the parameters can be modified in a configuration subclass called `ShapeNetPartConfig`, and the first run of this script might take some time to precompute dataset structures.
+       
+### Plot a logged training
 
-### Test and visualization
+When you start a new training, it is saved in a `results` folder. A dated log folder will be created, containing many information including loss values, validation metrics, model snapshots, etc.
 
-See [ModelNet40 section].
+In `plot_convergence.py`, you will find detailed comments explaining how to choose which training log you want to plot. Follow them and then run the script :
 
-## Scene Segmentation on S3DIS
+        python3 plot_convergence.py
 
-### Data
 
-S3DIS dataset can be downloaded <a href="https://goo.gl/forms/4SoGp4KtH1jfRqEj2">here (4.8 GB)</a>. Download the file named `Stanford3dDataset_v1.2.zip`, uncompress the folder and move it to `Data/S3DIS/Stanford3dDataset_v1.2`.
+### Test the trained model
 
-### Training
+The test script is the same for all models (segmentation or classification). In `test_any_model.py`, you will find detailed comments explaining how to choose which logged trained model you want to test. Follow them and then run the script :
 
-Simply run the following script to start the training:
-
-        python3 training_S3DIS.py
-        
-Similarly to ModelNet40 training, the parameters can be modified in a configuration subclass called `S3DISConfig`, and the first run of this script might take some time to precompute dataset structures.
-
-### Test and visualization
-
-See [ModelNet40 section].
-
-## License
-Our code is released under Apache 2.0 License (see LICENSE file for details).
-
-## Updates
-* 17/03/2019: New version of KPConv.
-* 11/12/2018: Added general visualization code.
-* 10/12/2018: Added training code for S3DIS and general test code.
-* 26/11/2018: Added training code for ModelNet40/ShapeNetPart.
-
+        python3 test_any_model.py
