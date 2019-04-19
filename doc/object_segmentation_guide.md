@@ -8,22 +8,6 @@ Created by Hugues THOMAS
 A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](./INSTALL.md). Windows is currently not supported as the code uses tensorflow custom operations.
 
 
-## Experiments
-
-We provide scripts for many experiments:
-
-* Training on a model classification task (ModelNet40)
-* Training on a model segmentation task (ShapeNetPart)
-* Training on point cloud datasets (S3DIS, Scannet, Semantic3D, NPM3D)
-* Test of any of the models
-* Visualization of learned features
-* Visualization of learned kernel deformations
-* Visualization of Effective Receptive Fields
-
-You will find more details on how to run these experiments and how to train a KPConv network on your own data in the `doc` folder
-
-
-
 
 
 
