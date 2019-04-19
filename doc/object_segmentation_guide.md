@@ -7,49 +7,7 @@ Created by Hugues THOMAS
 
 A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](./INSTALL.md). Windows is currently not supported as the code uses tensorflow custom operations.
 
-
-
-
-
-## Shape classification on ModelNet40
-
-### Data
-
-Regularly sampled clouds from ModelNet40 dataset can be downloaded <a href="https://shapenet.cs.stanford.edu/media/modelnet40_normal_resampled.zip">here (1.6 GB)</a>. Uncompress the folder and move it to `Data/ModelNet40/modelnet40_normal_resampled`.
-
-N.B. If you want to place your data anywhere else, you just have to change the variable `self.path` of `ModelNet40Dataset` class (line 142 of the file `datasets/ModelNet40.py`). The same can be done for the other datasets.
-
-### Training a model
-
-Simply run the following script to start the training:
-
-        python3 training_ModelNet40.py
-        
-This file contains a configuration subclass `ModelNet40Config`, inherited from the general configuration class `Config` defined in `utils/config.py`. The value of every parameter can be modified in the subclass. The first run of this script will precompute structures for the dataset which might take some time.
-
-### Test a model
-
-The test script is the same for all models (segmentation or classification). In `test_any_model.py`, you will find detailed comments explaining how to choose which model you want to test. Follow them and then run the script :
-
-        python3 test_any_model.py
-
-### Visualizations
-
-#### Show Learned features
-
-For any model, run:
-
-        python3 visualize_features.py
-        
-More details in the script.
-        
-#### Plot a logged training
-
-For any model, run:
-
-        python3 plot_convergence.py
-        
-With this script, you can show the evolution of the training loss, validation accuracy, learning rate. You can also compare different logs. More details in the script.
+N.B. If you want to place your data anywhere else, you just have to change the variable `self.path` of `ShapeNetPartDataset` class (in the file `datasets/ShapeNetPart.py`).
 
 ## Object Part Segmentation on ShapeNetPart
 

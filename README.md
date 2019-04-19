@@ -3,6 +3,20 @@
 
 Created by Hugues THOMAS
 
+### Paper
+
+[arXiv](https://arxiv.org/abs/1904.08889)
+```
+@inproceedings{su18splatnet,
+  author={Su, Hang and Jampani, Varun and Sun, Deqing and Maji, Subhransu and Kalogerakis, Evangelos and Yang, Ming-Hsuan and Kautz, Jan},
+  title     = {{SPLATN}et: Sparse Lattice Networks for Point Cloud Processing},
+  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  pages     = {2530--2539},
+  year      = {2018}
+}
+```
+
+
 ## Installation
 
 A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](./INSTALL.md). Windows is currently not supported as the code uses tensorflow custom operations.
@@ -14,10 +28,10 @@ We provide scripts for many experiments. The instructions to run these experimen
 
 #### Experiments guides
 
-* [Object Classification](./doc/object_classification_guide.md): Instructions to train KP-CNN on a shape classification
+* [Object Classification](./doc/object_classification_guide.md): Instructions to train KP-CNN on an object classification
  task (Modelnet40).
  
-* [Object Segmentation](./doc/object_segmentation_guide.md): Instructions to train KP-FCNN on a shape segmentation task
+* [Object Segmentation](./doc/object_segmentation_guide.md): Instructions to train KP-FCNN on an object segmentation task
  (ShapeNetPart)
  
 * [Scene Segmentation](./doc/scene_segmentation_guide.md): Instructions to train KP-FCNN on several scene segmentation 
