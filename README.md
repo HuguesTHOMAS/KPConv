@@ -7,8 +7,8 @@ Created by Hugues THOMAS
 
 [arXiv](https://arxiv.org/abs/1904.08889)
 ```
-@article{thomas2017KPConv,
-    Author = {Thomas, Hugues and Qi, Charles R., Deschaud, Jean-Emmanuel and Marcotegui, Beatriz and Goulette, Fran{\c{c}}ois and Guibas, Leonidas J.},
+@article{thomas2019KPConv,
+    Author = {Thomas, Hugues and Qi, Charles R. and Deschaud, Jean-Emmanuel and Marcotegui, Beatriz and Goulette, Fran{\c{c}}ois and Guibas, Leonidas J.},
     Title = {KPConv: Flexible and Deformable Convolution for Point Clouds},
     Journal = {arXiv preprint arXiv:1904.08889},
     Year = {2019}
