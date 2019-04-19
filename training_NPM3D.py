@@ -97,7 +97,7 @@ class NPM3DConfig(Config):
     first_subsampling_dl = 0.08
     in_radius = 4.0
 
-    # Density of neighborhoods for deformable convs (which need bigger radiuses). For normal conv we use KP_extent
+    # Density of neighborhoods for deformable convs (which need bigger radiuses). For normal conv we use KP_extent
     density_parameter = 5.0
 
     # Behavior of convolutions in ('constant', 'linear', gaussian)

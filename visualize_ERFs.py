@@ -119,7 +119,7 @@ def visu_caller(path, step_ind, relu_idx):
     dl0 = config.first_subsampling_dl
     dataset.load_subsampled_clouds(dl0)
 
-    # Initiate ERF input pipeleine (only diff is taht it is not random)
+    # Initiate ERF input pipeleine (only diff is taht it is not random)
     dataset.init_ERF_input_pipeline(config)
 
     ##############
@@ -196,7 +196,7 @@ if __name__ == '__main__':
     #       > 'results/Log_YYYY-MM-DD_HH-MM-SS': Directly provide the path of a trained model
     #
 
-    # Semantic3d
+    # Semantic3d
     #chosen_log = 'results/Log_2019-03-13_10-21-04'  # => deformable
     #chosen_log = 'results/Log_2019-03-10_01-08-49'  # => normal
 

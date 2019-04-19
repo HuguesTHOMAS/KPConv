@@ -140,7 +140,7 @@ class Config:
     points_loss = ''
     points_decay = 1e-2
 
-    # Offset regularization loss
+    # Offset regularization loss
     offsets_loss = 'permissive'
     offsets_decay = 1e-2
 

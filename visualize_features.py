@@ -169,7 +169,7 @@ def visu_caller(path, step_ind, relu_idx, compute_activations):
 
         visualiser.top_relu_activations(model, dataset, relu_idx)
 
-    # Show the computed activations
+    # Show the computed activations
     ModelVisualizer.show_activation(path, relu_idx)
 
 # ----------------------------------------------------------------------------------------------------------------------

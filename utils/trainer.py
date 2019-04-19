@@ -124,7 +124,7 @@ class ModelTrainer:
 
             if model.config.grad_clip_norm > 0:
 
-                # Get gradient for deformable convolutions and scale them
+                # Get gradient for deformable convolutions and scale them
                 scaled_gvs = []
                 for grad, var in gvs:
                     if 'offset_conv' in var.name:

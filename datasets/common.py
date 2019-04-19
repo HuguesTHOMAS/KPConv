@@ -1087,7 +1087,7 @@ class Dataset:
                 # Subsampled points
                 pool_p, pool_b = tf_batch_subsampling(stacked_points, stacks_lengths, sampleDl=dl)
 
-                # Radius of pooled neighbors
+                # Radius of pooled neighbors
                 if 'deformable' in block:
                     r = r_normal * config.density_parameter / (config.KP_extent * 2.5)
                 else:
@@ -1224,7 +1224,7 @@ class Dataset:
                 # Subsampled points
                 pool_p, pool_b = tf_batch_subsampling(stacked_points, stacks_lengths, sampleDl=dl)
 
-                # Radius of pooled neighbors
+                # Radius of pooled neighbors
                 if 'deformable' in block:
                     r = r_normal * config.density_parameter / (config.KP_extent * 2.5)
                 else:

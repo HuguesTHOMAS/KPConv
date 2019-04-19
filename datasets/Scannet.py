@@ -155,7 +155,7 @@ class ScannetDataset(Dataset):
         self.validation_split = 1
         self.all_splits = []
 
-        # Load test set or train set?
+        # Load test set or train set?
         self.load_test = load_test
 
         ###################

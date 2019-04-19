@@ -93,7 +93,7 @@ class S3DISConfig(Config):
     first_subsampling_dl = 0.04
     in_radius = 2.0
 
-    # Density of neighborhoods for deformable convs (which need bigger radiuses). For normal conv we use KP_extent
+    # Density of neighborhoods for deformable convs (which need bigger radiuses). For normal conv we use KP_extent
     density_parameter = 5.0
 
     # Influence function of KPConv in ('constant', 'linear', gaussian)

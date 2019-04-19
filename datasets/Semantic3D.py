@@ -29,6 +29,10 @@ import numpy as np
 import time
 import pickle
 from sklearn.neighbors import KDTree
+try:
+    from urllib.request import urlretrieve
+except ImportError:
+    from urllib import urlretrieve
 
 # PLY reader
 from utils.ply import read_ply, write_ply
@@ -126,15 +130,13 @@ class Semantic3DDataset(Dataset):
         ##########################
 
         # Path of the folder containing ply files
-        # Path of the folder containing ply files
-        if 'SSH_CLIENT' in os.environ.keys():
-            self.path = '../../Data/Semantic3D'
-        else:
-            self.path = '/media/hugues/Data/These/Datasets/Semantic3d/Hugues_splits'
+        self.path = 'Data/Semantic3D'
+
+        # Original data path
+        self.original_folder = 'original_data'
 
         # Path of the training files
         self.train_path = join(self.path, 'ply_subsampled/train')
-
         self.test_path = join(self.path, 'ply_subsampled/reduced-8')
         #self.test_path = join(self.path, 'ply_subsampled/semantic-8')
 
@@ -163,6 +165,67 @@ class Semantic3DDataset(Dataset):
                             'stgallencathedral_station1_intensity_rgb.ply': 'stgallencathedral1.labels',
                             'stgallencathedral_station3_intensity_rgb.ply': 'stgallencathedral3.labels',
                             'stgallencathedral_station6_intensity_rgb.ply': 'stgallencathedral6.labels'}
+
+        ###################
+        # Prepare ply files
+        ###################
+
+        self.prepare_data()
+
+    def prepare_data(self):
+        """
+        Download and precompute Seamntic3D point clouds
+
+        """
+
+        # Folder names
+        old_folder = join(self.path, self.original_folder)
+
+        # Text files containing points
+        cloud_names = [file_name[:-4] for file_name in listdir(old_folder) if file_name[-4:] == '.txt']
+
+        for cloud_name in cloud_names:
+
+            # Name of the files
+            txt_file = join(old_folder, cloud_name + '.txt')
+            label_file = join(old_folder, cloud_name + '.labels')
+
+            if exists(label_file):
+                ply_file_full = join(self.train_path, cloud_name + '.ply')
+            else:
+                ply_file_full = join(self.test_path, cloud_name + '.ply')
+
+            # Pass if already done
+            if exists(ply_file_full):
+                print('{:s} already done\n'.format(cloud_name))
+                continue
+
+            print('Preparation of {:s}'.format(cloud_name))
+
+            data = np.loadtxt(txt_file)
+
+            points = data[:, :3].astype(np.float32)
+            colors = data[:, 4:7].astype(np.uint8)
+
+            if exists(label_file):
+
+                # Load labels
+                labels = np.loadtxt(label_file, dtype=np.int32)
+
+                # Subsample to save space
+                sub_points, sub_colors, sub_labels = grid_subsampling(points,
+                                                                      features=colors,
+                                                                      labels=labels,
+                                                                      sampleDl=0.01)
+
+                # Write the subsampled ply file
+                write_ply(ply_file_full, (sub_points, sub_colors, sub_labels), ['x', 'y', 'z', 'red', 'green', 'blue', 'class'])
+
+            else:
+
+                # Write the full ply file
+                write_ply(ply_file_full, (points, colors), ['x', 'y', 'z', 'red', 'green', 'blue'])
+
 
     def load_subsampled_clouds(self, subsampling_parameter):
         """

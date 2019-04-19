@@ -122,7 +122,7 @@ class NPM3DDataset(Dataset):
         # Number of input threads
         self.num_threads = input_threads
 
-        # Load test set or train set?
+        # Load test set or train set?
         self.load_test = load_test
 
         ##########################

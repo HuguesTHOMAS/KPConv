@@ -23,9 +23,8 @@ Incoming
 
 ### Data
 
-Semantic3D dataset can be found <a href="http://www.semantic3d.net/">here</a>. 
+Semantic3D dataset can be found <a href="http://www.semantic3d.net/view_dbase.php?chl=2">here</a>. Download and unzip every point cloud as ascii files and place them in a folder called `Data/Semantic3D/original_data`. You also have to download and unzip the groundthruth labels as ascii files in the same folder
 
-The training script will automatically download and precompute this dataset in a folder called `Data/Semantic3D`.
 
 ### Training
 

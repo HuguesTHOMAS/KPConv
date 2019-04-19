@@ -333,7 +333,7 @@ class ModelVisualizer:
         all_ops = [op for op in tf.get_default_graph().get_operations() if op.name.startswith('KernelPointNetwork')
                    and op.name.endswith('deformed_KP')]
 
-        # Chosen deformations
+        # Chosen deformations
         deformed_KP_tensor = all_ops[deform_idx].outputs[0]
 
         # Layer index
@@ -462,7 +462,7 @@ class ModelVisualizer:
                 def update_scene():
                     global plots, offsets, p_scale, show_in_p, aim_point, point_i
 
-                    # Get the current view
+                    # Get the current view
                     v = mlab.view()
                     roll = mlab.roll()
 
@@ -492,7 +492,7 @@ class ModelVisualizer:
 
                     if show_in_p >= 1:
 
-                        # Get points and colors
+                        # Get points and colors
                         in_p = in_points[obj_i]
                         in_p = (in_p * 1.5 / model.config.in_radius)
                         in_c = in_colors[obj_i]
@@ -555,7 +555,7 @@ class ModelVisualizer:
                         plots['text'] = mlab.text(0.01, 0.01, text, color=(0, 0, 0), width=0.98)
                         plots['orient'] = mlab.orientation_axes()
 
-                    # Set the saved view
+                    # Set the saved view
                     mlab.view(*v)
                     mlab.roll(roll)
 
@@ -626,7 +626,7 @@ class ModelVisualizer:
 
                         print('Saving')
 
-                        # Find a new name
+                        # Find a new name
                         file_i = 0
                         file_name = 'KP_{:03d}.ply'.format(file_i)
                         files = [f for f in listdir('KP_clouds') if f.endswith('.ply')]
@@ -637,7 +637,7 @@ class ModelVisualizer:
                         KP_deform = points[obj_i][point_i] + deformed_KP[obj_i][point_i]
                         KP_normal = points[obj_i][point_i] + original_KPs[chosen_KP]
 
-                        # Save
+                        # Save
                         write_ply(join('KP_clouds', file_name),
                                   [in_points[obj_i], in_colors[obj_i]],
                                   ['x', 'y', 'z', 'red', 'green', 'blue'])
@@ -670,7 +670,7 @@ class ModelVisualizer:
         # First add a modulation variable on input features
         ###################################################
 
-        # Tensorflow random seed
+        # Tensorflow random seed
         random_seed = 42
 
         # Create a modulated input feature op
@@ -685,7 +685,7 @@ class ModelVisualizer:
 
         print('*******************************************')
 
-        # Swap the op with the normal input features
+        # Swap the op with the normal input features
         for op in tf.get_default_graph().get_operations():
 
             if 'input_modulations' in op.name:
@@ -763,12 +763,12 @@ class ModelVisualizer:
 
             #test2 = scale_grad_layer(test2)
 
-            # Get the tensor of error for these features (one for the chosen point, zero for the rest)
+            # Get the tensor of error for these features (one for the chosen point, zero for the rest)
             chosen_f_tf = tf.placeholder(tf.int32, name='feature_ind')
             ERF_error = tf.expand_dims(tf.cast(tf.equal(tf.range(N), chosen_i_tf), tf.float32), 1)
             ERF_error *= tf.expand_dims(tf.cast(tf.equal(tf.range(features_dim), chosen_f_tf), tf.float32), 0)
 
-            # Get objective for the features (with a stop gradient so that we can get a gradient on the loss)
+            # Get objective for the features (with a stop gradient so that we can get a gradient on the loss)
             objective_features = features_tensor + ERF_error
             objective_features = tf.stop_gradient(objective_features)
 
@@ -828,7 +828,7 @@ class ModelVisualizer:
         def update_ERF(only_points=False):
             global points, in_points, grad_values, chosen_point, aim_point, in_colors
 
-            # Generate clouds until we effectively changed
+            # Generate clouds until we effectively changed
             if only_points:
                 for i in range(50):
                     all_points = self.sess.run(model.inputs['points'])
@@ -1030,7 +1030,7 @@ class ModelVisualizer:
 
                 print('Saving')
 
-                # Find a new name
+                # Find a new name
                 file_i = 0
                 file_name = 'ERF_{:03d}.ply'.format(file_i)
                 files = [f for f in listdir('ERF_clouds') if f.endswith('.ply')]
@@ -1038,7 +1038,7 @@ class ModelVisualizer:
                     file_i += 1
                     file_name = 'ERF_{:03d}.ply'.format(file_i)
 
-                # Save
+                # Save
                 responses = 100 * np.abs(np.ravel(grad_values))
                 write_ply(join('ERF_clouds', file_name),
                           [in_points, in_colors, responses],

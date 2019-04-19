@@ -197,10 +197,10 @@ class KernelPointCNN:
                     # Radius of deformed convolution for this layer
                     conv_radius = self.config.first_subsampling_dl * self.config.density_parameter * (2 ** layer)
 
-                    # Get the distance to closest input point
+                    # Get the distance to closest input point
                     KP_min_d2 = tf.reduce_min(deformed_d2, axis=1)
 
-                    # Normalize KP locations to be independant from layers
+                    # Normalize KP locations to be independant from layers
                     KP_min_d2 = KP_min_d2 / (conv_radius**2)
 
                     # Loss will be the square distance to closest input point.

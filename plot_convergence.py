@@ -668,7 +668,7 @@ def compare_convergences_classif(dataset, list_of_paths, list_of_labels=None):
         #all_mean_IoU_scores += [running_mean(np.mean(val_IoU[:, 1:], axis=1), smooth_n)]
 
 
-    # Best scores
+    # Best scores
     # ***********
 
     for i, label in enumerate(list_of_labels):
@@ -968,7 +968,7 @@ def ModelNet40_deformable():
                   'test']
     logs_names = np.array(logs_names[:len(logs)])
 
-    # Remove useless
+    # Remove useless
     useless = [0, 1, 2, 5, 6]
     if useless:
         logs = np.delete(logs, useless)
@@ -1034,7 +1034,7 @@ def Semantic3D_deformable():
                   'test']
     logs_names = np.array(logs_names[:len(logs)])
 
-    # Remove useless
+    # Remove useless
     useless = [0, 1, 2, 3, 4, 5, 7, 8, 10]
     if useless:
         logs = np.delete(logs, useless)
@@ -1071,7 +1071,7 @@ def Scannet_deformable():
     logs_names = np.array(logs_names[:len(logs)])
 
 
-    # Remove useless
+    # Remove useless
     useless = [5, 8, 9, 10]
     if useless:
         logs = np.delete(logs, useless)
@@ -1105,7 +1105,7 @@ def Scannet_restricted():
     logs_names = np.array(logs_names[:len(logs)])
 
 
-    # Remove useless
+    # Remove useless
     useless = []
     if useless:
         logs = np.delete(logs, useless)
@@ -1139,7 +1139,7 @@ def Scannet_restricted_bis():
     logs_names = np.array(logs_names[:len(logs)])
 
 
-    # Remove useless
+    # Remove useless
     useless = []
     if useless:
         logs = np.delete(logs, useless)
@@ -1164,7 +1164,7 @@ def S3DIS_deform():
     logs_names = np.array(logs_names[:len(logs)])
 
 
-    # Remove useless
+    # Remove useless
     useless = []
     if useless:
         logs = np.delete(logs, useless)
@@ -1191,7 +1191,7 @@ def ShapeNetPart_deform():
     logs_names = np.array(logs_names[:len(logs)])
 
 
-    # Remove useless
+    # Remove useless
     useless = []
     if useless:
         logs = np.delete(logs, useless)
@@ -1221,7 +1221,7 @@ def S3DIS_k_fold():
     logs_names = np.array(logs_names[:len(logs)])
 
 
-    # Remove useless
+    # Remove useless
     useless = []
     if useless:
         logs = np.delete(logs, useless)
@@ -1251,7 +1251,7 @@ def S3DIS_k_fold_bis():
     logs_names = np.array(logs_names[:len(logs)])
 
 
-    # Remove useless
+    # Remove useless
     useless = []
     if useless:
         logs = np.delete(logs, useless)
@@ -1277,7 +1277,7 @@ def NPM3D_deformable():
     logs_names = np.array(logs_names[:len(logs)])
 
 
-    # Remove useless
+    # Remove useless
     useless = []
     if useless:
         logs = np.delete(logs, useless)
@@ -1309,7 +1309,7 @@ def Scannet_more():
     logs_names = np.array(logs_names[:len(logs)])
 
 
-    # Remove useless
+    # Remove useless
     useless = []
     if useless:
         logs = np.delete(logs, useless)
