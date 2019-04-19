@@ -5,8 +5,6 @@ Created by Hugues THOMAS
 
 ## Introduction
 
-### Update
-
 **This is an alpha version of the code**, more features will be added in the next weeks.
 
 ### Paper
