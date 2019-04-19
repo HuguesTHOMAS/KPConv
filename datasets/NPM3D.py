@@ -130,10 +130,7 @@ class NPM3DDataset(Dataset):
         ##########################
 
         # Path of the folder containing ply files
-        if 'SSH_CLIENT' in os.environ.keys():
-            self.path = '/home/hugues/Data/NPM3D'
-        else:
-            self.path = '/media/hugues/Data/These/Datasets/NPM3D'
+        self.path = 'Data/NPM3D'
 
         # Path of the training files
         self.train_path = join(self.path, 'training_points')

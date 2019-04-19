@@ -138,10 +138,7 @@ class ScannetDataset(Dataset):
         ##########################
 
         # Path of the folder containing ply files
-        if 'SSH_CLIENT' in os.environ.keys():
-            self.path = '/home/hugues/Data/Scannet'
-        else:
-            self.path = '/media/hugues/Data/These/Datasets/Scannet'
+        self.path = 'Data/Scannet'
 
 
         # Path of the training files
