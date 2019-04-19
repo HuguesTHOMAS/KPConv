@@ -226,7 +226,6 @@ class Semantic3DDataset(Dataset):
                 # Write the full ply file
                 write_ply(ply_file_full, (points, colors), ['x', 'y', 'z', 'red', 'green', 'blue'])
 
-
     def load_subsampled_clouds(self, subsampling_parameter):
         """
         Presubsample point clouds and load into memory (Load KDTree for neighbors searches

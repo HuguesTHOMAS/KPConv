@@ -30,7 +30,7 @@ Semantic3D dataset can be found <a href="http://www.semantic3d.net/view_dbase.ph
 
 Simply run the following script to start the training:
 
-        python3 training_S3DIS.py
+        python3 training_Semantic3D.py
         
 Similarly to ModelNet40 training, the parameters can be modified in a configuration subclass called `Semantic3DConfig`, and the first run of this script might take some time to precompute dataset structures.
 
