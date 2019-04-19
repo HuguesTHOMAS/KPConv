@@ -12,14 +12,14 @@ A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](.
 
 We provide scripts for many experiments:
 
-* Training on a model classification task (ModelNet40).
-* Training on a model segmentation task (ShapeNetPart).
-* Training on point cloud datasets (S3DIS, Scannet, Semantic3D, NPM3D).
-* Test of any of the models.
-* Plot many values (time, loss, validation accuracies, etc.) for any training log.
-* Visualization of learned features.
-* Visualization of learned kernel deformations.
-* Visualization of Effective Receptive Fields.
+* Training on shape classification tasks (see [INSTALL.md](./doc/object_classification_guide.md))
+* Training on shape segmentation tasks (see [INSTALL.md](./doc/object_segmentation_guide.md))
+* Training on scene segmentation datasets (see [INSTALL.md](./doc/scene_segmentation_guide.md))
+* Test of any of the models (see [TODO](./doc/TODO.md)).
+* Plot many values (time, loss, validation accuracies, etc.) for any training log (see [TODO](./doc/TODO.md)).
+* Visualization of learned features (see [TODO](./doc/TODO.md)).
+* Visualization of learned kernel deformations (see [TODO](./doc/TODO.md)).
+* Visualization of Effective Receptive Fields (see [TODO](./doc/TODO.md)).
 
 You will find more details on how to run these experiments and how to train a KPConv network on your own data in the [doc](./doc) folder
 
@@ -27,8 +27,5 @@ You will find more details on how to run these experiments and how to train a KP
 Our code is released under MIT License (see LICENSE file for details).
 
 ## Updates
-* 17/03/2019: New version of KPConv.
-* 11/12/2018: Added general visualization code.
-* 10/12/2018: Added training code for S3DIS and general test code.
-* 26/11/2018: Added training code for ModelNet40/ShapeNetPart.
+* 19/04/2019: Initial release.
 
