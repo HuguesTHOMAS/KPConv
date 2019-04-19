@@ -55,13 +55,13 @@ def test_caller(path, step_ind, on_val):
     ##########################
 
     # Choose which gpu to use
-    GPU_ID = '1'
+    GPU_ID = '0'
 
     # Set GPU visible device
     os.environ['CUDA_VISIBLE_DEVICES'] = GPU_ID
 
     # Disable warnings
-    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 
     ###########################
     # Load the model parameters
@@ -223,8 +223,7 @@ if __name__ == '__main__':
     #       > 'results/Log_YYYY-MM-DD_HH-MM-SS': Directly provide the path of a trained model
     #
 
-    chosen_log = 'results/Log_2019-03-10_01-08-49'
-    #chosen_log = 'last_ShapeNetPart'
+    chosen_log = 'last_ModelNet40'
 
     #
     #   You can also choose the index of the snapshot to load (last by default)
@@ -233,7 +232,7 @@ if __name__ == '__main__':
     chosen_snapshot = -1
 
     #
-    #   Eventually, you can test your model on the validation set
+    #   Eventually, you can choose to test your model on the validation set
     #
 
     on_val = False
