@@ -75,9 +75,9 @@ class Modelnet40Config(Config):
                     'resnetb_strided',
                     'resnetb',
                     'resnetb_strided',
-                    'resnetb',
-                    'resnetb_strided',
-                    'resnetb',
+                    'resnetb_deformable',
+                    'resnetb_deformable_strided',
+                    'resnetb_deformable',
                     'global_average']
 
     # KPConv specific parameters
