@@ -44,11 +44,11 @@ We provide scripts for many experiments. The instructions to run these experimen
 * Visualization of learned kernel deformations (TODO).
 
 * Visualization of Effective Receptive Fields (TODO).
- 
 
- 
- 
- 
+
+## Acknowledgment
+
+Our uses the <a href="https://github.com/jlblancoc/nanoflann">nanoflann</a> library.
 
 ## License
 Our code is released under MIT License (see LICENSE file for details).
