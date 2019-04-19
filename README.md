@@ -12,14 +12,14 @@ A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](.
 
 We provide scripts for many experiments:
 
-* Training on shape classification tasks (see [INSTALL.md](./doc/object_classification_guide.md))
-* Training on shape segmentation tasks (see [INSTALL.md](./doc/object_segmentation_guide.md))
-* Training on scene segmentation datasets (see [INSTALL.md](./doc/scene_segmentation_guide.md))
-* Test of any of the models (see [TODO](./doc/TODO.md)).
-* Plot many values (time, loss, validation accuracies, etc.) for any training log (see [TODO](./doc/TODO.md)).
-* Visualization of learned features (see [TODO](./doc/TODO.md)).
-* Visualization of learned kernel deformations (see [TODO](./doc/TODO.md)).
-* Visualization of Effective Receptive Fields (see [TODO](./doc/TODO.md)).
+* Training on shape classification tasks (see [INSTALL.md](./blob/master/doc/object_classification_guide.md))
+* Training on shape segmentation tasks (see [INSTALL.md](./blob/master/doc/object_segmentation_guide.md))
+* Training on scene segmentation datasets (see [INSTALL.md](./blob/master/doc/scene_segmentation_guide.md))
+* Test of any of the models (see [TODO](./blob/master/doc/TODO.md)).
+* Plot many values (time, loss, validation accuracies, etc.) for any training log (see [TODO](./blob/master/doc/TODO.md)).
+* Visualization of learned features (see [TODO](./blob/master/doc/TODO.md)).
+* Visualization of learned kernel deformations (see [TODO](./blob/master/doc/TODO.md)).
+* Visualization of Effective Receptive Fields (see [TODO](./blob/master/doc/TODO.md)).
 
 You will find more details on how to run these experiments and how to train a KPConv network on your own data in the [doc](./doc) folder
 
