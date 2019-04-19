@@ -14,26 +14,31 @@ We provide scripts for many experiments. The instructions to run these experimen
 
 #### Experiments instructions
 
-* Training on shape classification tasks (see [object_classification_guide.md](./doc/object_classification_guide.md))
-* Training on shape segmentation tasks (see [object_segmentation_guide.md](./doc/object_segmentation_guide.md))
-* Training on scene segmentation datasets (see [scene_segmentation_guide.md](./doc/scene_segmentation_guide.md))
-* Training our network on your own data (see [TODO](./doc/TODO.md)).
-* Test of any of the models (see [TODO](./doc/TODO.md)).
-* Plot many values (time, loss, validation accuracies, etc.) for any training log (see [TODO](./doc/TODO.md)).
-* Visualization of learned features (see [TODO](./doc/TODO.md)).
-* Visualization of learned kernel deformations (see [TODO](./doc/TODO.md)).
-* Visualization of Effective Receptive Fields (see [TODO](./doc/TODO.md)).
-
 * [Object Classification](./doc/object_classification_guide.md): Instructions to train KP-CNN on a shape classification
  task (Modelnet40).
-* Training on shape segmentation tasks (see [object_segmentation_guide.md](./doc/object_segmentation_guide.md))
-* Training on scene segmentation datasets (see [scene_segmentation_guide.md](./doc/scene_segmentation_guide.md))
+ 
+* [Object Segmentation](./doc/object_segmentation_guide.md): Instructions to train KP-FCNN on a shape segmentation task
+ (ShapeNetPart)
+ 
+* [Scene Segmentation](./doc/scene_segmentation_guide.md): Instructions to train KP-FCNN on several scene segmentation 
+ tasks (S3DIS, Scannet, Semantic3D, NPM3D).
+ 
 * Training our network on your own data (see [TODO](./doc/TODO.md)).
+
 * Test of any of the models (see [TODO](./doc/TODO.md)).
+
 * Plot many values (time, loss, validation accuracies, etc.) for any training log (see [TODO](./doc/TODO.md)).
+
 * Visualization of learned features (see [TODO](./doc/TODO.md)).
+
 * Visualization of learned kernel deformations (see [TODO](./doc/TODO.md)).
+
 * Visualization of Effective Receptive Fields (see [TODO](./doc/TODO.md)).
+ 
+
+ 
+ 
+ 
 
 ## License
 Our code is released under MIT License (see LICENSE file for details).
