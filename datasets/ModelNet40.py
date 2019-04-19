@@ -153,12 +153,8 @@ class ModelNet40Dataset(Dataset):
         ##########################
 
         # Path of the folder containing ply files
-        if 'SSH_CLIENT' in os.environ.keys():
-            self.path = '/home/hugues/Data/ModelNet'
-            self.data_folder = 'modelnet40_normal_resampled'
-        else:
-            self.path = '/media/hugues/Data/These/Datasets/ModelNet'
-            self.data_folder = 'ModelNet40_pointnet'
+        self.path = 'Data/ModelNet40'
+        self.data_folder = 'modelnet40_normal_resampled'
 
         # Number of models
         self.num_train = 9843

@@ -126,14 +126,14 @@ class Modelnet40Config(Config):
     # Number of batch
     batch_num = 16
 
-    # Number of steps per epochs
-    epoch_steps = 50
+    # Number of steps per epochs (If None, 1 epoch = computing the whole dataset.)
+    epoch_steps = None
 
     # Number of validation examples per epoch
-    validation_size = 10
+    validation_size = 50
 
     # Number of epoch between each snapshot
-    snapshot_gap = 2
+    snapshot_gap = 50
 
     # Augmentations
     augment_scale_anisotropic = True
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     dataset.init_input_pipeline(config)
 
     # Test the input pipeline alone with this debug function
-    dataset.check_input_pipeline_timing(config)
+    #dataset.check_input_pipeline_timing(config)
 
     ##############
     # Define Model
