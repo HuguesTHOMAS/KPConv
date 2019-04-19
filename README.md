@@ -12,18 +12,19 @@ A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](.
 
 We provide scripts for many experiments:
 
-* Training on a model classification task (ModelNet40)
-* Training on a model segmentation task (ShapeNetPart)
-* Training on point cloud datasets (S3DIS, Scannet, Semantic3D, NPM3D)
-* Test of any of the models
-* Visualization of learned features
-* Visualization of learned kernel deformations
-* Visualization of Effective Receptive Fields
+* Training on a model classification task (ModelNet40).
+* Training on a model segmentation task (ShapeNetPart).
+* Training on point cloud datasets (S3DIS, Scannet, Semantic3D, NPM3D).
+* Test of any of the models.
+* Plot many values (time, loss, validation accuracies, etc.) for any training log.
+* Visualization of learned features.
+* Visualization of learned kernel deformations.
+* Visualization of Effective Receptive Fields.
 
 You will find more details on how to run these experiments and how to train a KPConv network on your own data in the [doc](./doc) folder
 
 ## License
-Our code is released under Apache 2.0 License (see LICENSE file for details).
+Our code is released under MIT License (see LICENSE file for details).
 
 ## Updates
 * 17/03/2019: New version of KPConv.
