@@ -10,7 +10,9 @@ A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](.
 
 ## Experiments
 
-We provide scripts for many experiments:
+We provide scripts for many experiments. The details on how to run these experiments in the [doc](./doc) folder.
+
+#### Experiments instructions
 
 * Training on shape classification tasks (see [object_classification_guide.md](./doc/object_classification_guide.md))
 * Training on shape segmentation tasks (see [object_segmentation_guide.md](./doc/object_segmentation_guide.md))
@@ -20,8 +22,7 @@ We provide scripts for many experiments:
 * Visualization of learned features (see [TODO](./doc/TODO.md)).
 * Visualization of learned kernel deformations (see [TODO](./doc/TODO.md)).
 * Visualization of Effective Receptive Fields (see [TODO](./doc/TODO.md)).
-
-You will find more details on how to run these experiments and how to train a KPConv network on your own data in the [doc](./doc) folder
+* Train our network on your own data (see [TODO](./doc/TODO.md)).
 
 ## License
 Our code is released under MIT License (see LICENSE file for details).
