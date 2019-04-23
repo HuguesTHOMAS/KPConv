@@ -337,7 +337,7 @@ def resnetb_block(layer_ind, inputs, features, radius, fdim, config, training):
     return leaky_relu(x + shortcut)
 
 
-def resneth_block(layer_ind, inputs, features, radius, fdim, config, training):
+def resnetb_light_block(layer_ind, inputs, features, radius, fdim, config, training):
     """
     Block performing a resnet bottleneck convolution (1conv > KPconv > 1conv + shortcut)
     """
@@ -581,7 +581,7 @@ def resnetb_strided_block(layer_ind, inputs, features, radius, fdim, config, tra
     return leaky_relu(x + shortcut)
 
 
-def resneth_strided_block(layer_ind, inputs, features, radius, fdim, config, training):
+def resnetb_light_strided_block(layer_ind, inputs, features, radius, fdim, config, training):
     """
     Block performing a strided resnet bottleneck convolution (shortcut is a maxpooling)
     """
@@ -965,8 +965,8 @@ def get_block_ops(block_name):
     elif block_name == 'resnetb':
         return resnetb_block
 
-    elif block_name == 'resneth':
-        return resneth_block
+    elif block_name == 'resnetb_light':
+        return resnetb_light_block
 
     elif block_name == 'resnetb_deformable':
         return resnetb_deformable_block
@@ -977,8 +977,8 @@ def get_block_ops(block_name):
     elif block_name == 'resnetb_strided':
         return resnetb_strided_block
 
-    elif block_name == 'resneth_strided':
-        return resneth_strided_block
+    elif block_name == 'resnetb_light_strided':
+        return resnetb_light_strided_block
 
     elif block_name == 'resnetb_deformable_strided':
         return resnetb_deformable_strided_block
