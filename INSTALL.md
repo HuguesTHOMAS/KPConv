@@ -3,7 +3,7 @@
 * Make sure <a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA</a>  and <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html">cuDNN</a> are installed. Three configurations have been tested: 
      - TensorFlow 1.4.1, CUDA 8.0 and cuDNN 6.0
      - TensorFlow 1.12.0, CUDA 9.0 and cuDNN 7.4
-     - TensorFlow 1.13.0, CUDA 10.0 and cuDNN 7.5
+     - ~~TensorFlow 1.13.0, CUDA 10.0 and cuDNN 7.5~~ (bug found only with this version).
      
 * Ensure all python packages are installed :
 
