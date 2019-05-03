@@ -7,7 +7,7 @@ Created by Hugues THOMAS
 
 **This is an alpha version of the code**, more features will be added in the next weeks.
 
-**Update 03/01/2019, bug found with TF 1.13 and CUDA 10.** 
+**Update 03/05/2019, bug found with TF 1.13 and CUDA 10.** 
 We found an internal bug inside tf.matmul operation. It 
 returns absurd values like 1e12, leading to the apparition of NaNs in our network. We advise to use the code with an
 older version of tensorflow (TF 1.12 works well).
