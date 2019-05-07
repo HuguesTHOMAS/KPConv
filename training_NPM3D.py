@@ -179,14 +179,8 @@ if __name__ == '__main__':
     # Initiate the environment
     ##########################
 
-    # If not called with arguments, choose the gpu
-    if len(sys.argv) > 2:
-        GPU_ID = sys.argv[1]
-        log_path = sys.argv[2]
-    else:
-        # Choose which gpu to use
-        GPU_ID = '0'
-        log_path = None
+    # Choose which gpu to use
+    GPU_ID = '0'
 
     # Set GPU visible device
     os.environ['CUDA_VISIBLE_DEVICES'] = GPU_ID
@@ -199,26 +193,6 @@ if __name__ == '__main__':
     ###########################
 
     config = NPM3DConfig()
-
-    # Modify some of the config parameters for each GPU if called with arguments
-    if len(sys.argv) > 2:
-
-        # Mapping from gpu to parameter:
-        GPU_to_param = {'0': 64,
-                        '1': 64,
-                        '2': None,
-                        '3': None}
-
-        if GPU_to_param[GPU_ID] is None:
-            raise ValueError('GPU_ID not valid')
-
-        # Change param
-        config.first_features_dim = GPU_to_param[GPU_ID]
-        config.saving_path = log_path
-        config.__init__()
-
-        if not config.saving:
-            raise ValueError('saving == False in a call from batch')
 
     ##############
     # Prepare Data
