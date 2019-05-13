@@ -1,6 +1,6 @@
 
-
 ## Creating your own dataset
+
 
 ### Overview of the pipeline
 
@@ -23,6 +23,7 @@ to the network.
 * Create an instance of our generic `ModelTrainer` class. This class handles the training of the model
 
 Then the training can start.
+
 
 ### The dataset class
 

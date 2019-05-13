@@ -42,7 +42,7 @@ We provide scripts for many experiments. The instructions to run these experimen
 * [Scene Segmentation](./doc/scene_segmentation_guide.md): Instructions to train KP-FCNN on several scene segmentation 
  tasks (S3DIS, Scannet, Semantic3D, NPM3D).
  
-* Training KPConv networks on your own data (TODO).
+* [New Dataset](./doc/new_dataset_guide.md): Instructions to train KPConv networks on your own data.
 
 * Test of any of the models (TODO).
 
