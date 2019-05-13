@@ -33,7 +33,7 @@ Tensorflow input pipeline. For efficiency, our implementation uses a parallel in
 network.
 
 Here we give you a description of each essential method that need to be implemented in your new dataset class. For more
-details, follow the implementation of the current datasets, which contains a lot of indication as comments.
+details, follow the implementation of the current datasets, which contains a lot of indications as comments.
 
 
 * The **\_\_init\_\_** method: Here you have to define the parameters of your dataset. Notice that your dataset class 
