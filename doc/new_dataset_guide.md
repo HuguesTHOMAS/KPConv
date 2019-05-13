@@ -1,8 +1,8 @@
 
+
 ## Creating your own dataset
 
-
-### Overview of the pipeline
+### Overview of the pipeline
 
 The training script initiates a bunch of variables and classes before starting the training on a dataset. Here are the 
 initialization steps:

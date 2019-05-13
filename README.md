@@ -44,10 +44,6 @@ We provide scripts for many experiments. The instructions to run these experimen
  
 * [New Dataset](./doc/new_dataset_guide.md): Instructions to train KPConv networks on your own data.
 
-* Test of any of the models (TODO).
-
-* Plot many values (time, loss, validation accuracies, etc.) for any training log (TODO).
-
 * Visualization of learned features (TODO).
 
 * Visualization of learned kernel deformations (TODO).
