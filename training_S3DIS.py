@@ -107,7 +107,7 @@ class S3DISConfig(Config):
     modulated = False
 
     # Offset loss
-    # 'permissive' only constrains offsets inside the big radius
+    # 'permissive' only constrains offsets to be inside the big radius
     # 'fitting' helps deformed kernels to adapt to the geometry by penalizing distance to input points
     offsets_loss = 'fitting'
     offsets_decay = 0.1
