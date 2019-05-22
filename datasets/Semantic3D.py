@@ -137,7 +137,7 @@ class Semantic3DDataset(Dataset):
 
         # Path of the training files
         self.train_path = join(self.path, 'ply_subsampled/train')
-        self.test_path = join(self.path, 'ply_subsampled/reduced-8')
+        self.test_path = join(self.path, 'ply_full/reduced-8')
         #self.test_path = join(self.path, 'ply_subsampled/semantic-8')
 
         # Proportion of validation scenes (chose validation split = 6 for final networks)
@@ -177,6 +177,11 @@ class Semantic3DDataset(Dataset):
         Download and precompute Seamntic3D point clouds
 
         """
+
+        if not exists(self.train_path):
+            makedirs(self.train_path)
+        if not exists(self.test_path):
+            makedirs(self.test_path)
 
         # Folder names
         old_folder = join(self.path, self.original_folder)
