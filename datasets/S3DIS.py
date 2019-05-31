@@ -188,7 +188,7 @@ class S3DISDataset(Dataset):
                         if tmp in self.name_to_label:
                             object_class = self.name_to_label[tmp]
                         elif tmp in ['stairs']:
-                            object_class = 12
+                            object_class = self.name_to_label['clutter']
                         else:
                             raise ValueError('Unknown object name: ' + str(tmp))
 
