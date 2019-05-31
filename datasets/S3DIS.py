@@ -129,7 +129,7 @@ class S3DISDataset(Dataset):
         ##########################
 
         # Path of the folder containing ply files
-        self.path = 'Data/Stanford3d/Stanford3dDataset_v1.2'
+        self.path = 'Data/S3DIS/Stanford3dDataset_v1.2'
 
         # Path of the training files
         self.train_path = 'original_ply'
