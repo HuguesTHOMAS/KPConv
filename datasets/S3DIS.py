@@ -327,11 +327,12 @@ class S3DISDataset(Dataset):
                     data = read_ply(file_path)
                     points = np.vstack((data['x'], data['y'], data['z'])).T
                     labels = data['class']
-                    inds = np.squeeze(self.input_trees['validation'][i_val].query(points, return_distance=False))
-                    proj_inds = [[] for _ in range(self.input_labels['validation'][i_val].shape[0])]
-                    for o_ind, sub_ind in enumerate(inds):
-                        proj_inds[sub_ind] += [o_ind]
-                    proj_inds = np.array([np.array(ind_list, dtype=np.int32) for ind_list in proj_inds])
+
+                    # Compute projection inds
+                    proj_inds = np.squeeze(self.input_trees['validation'][i_val].query(points, return_distance=False))
+                    proj_inds = proj_inds.astype(np.int32)
+
+                    # Save
                     with open(proj_file, 'wb') as f:
                         pickle.dump([proj_inds, labels], f)
 

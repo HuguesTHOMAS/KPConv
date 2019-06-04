@@ -460,25 +460,8 @@ class ScannetDataset(Dataset):
                     labels = vertex_data['class']
 
                     # Compute projection inds
-                    inds = np.squeeze(self.input_trees['validation'][i_val].query(vertices, return_distance=False))
-                    proj_inds = [[] for _ in range(self.input_labels['validation'][i_val].shape[0])]
-                    for o_ind, sub_ind in enumerate(inds):
-                        proj_inds[sub_ind] += [o_ind]
-                    proj_inds = np.array([np.array(ind_list, dtype=np.int32) for ind_list in proj_inds])
-
-                    """
-                    # Projection inds already computed for majority of vert indices
-                    proj_inds = [[vert_ind] for vert_ind in self.input_vert_inds['validation'][i_val]]
-
-                    # For mesh inds that do not have a point in the cloud projecting to them (with vert_inds), add
-                    # nearest neighbor projection
-                    unprojected_verts = np.where(np.bincount(self.input_vert_inds['validation'][i_val]) == 0)[0]
-                    inds = np.squeeze(self.input_trees['validation'][i_val].query(vertices[unprojected_verts, :],
-                                                                                  return_distance=False))
-                    for o_ind, sub_ind in zip(unprojected_verts, inds):
-                        proj_inds[sub_ind] += [o_ind]
-                    proj_inds = np.array([np.array(ind_list, dtype=np.int32) for ind_list in proj_inds])
-                    """
+                    proj_inds = np.squeeze(self.input_trees['validation'][i_val].query(vertices, return_distance=False))
+                    proj_inds = proj_inds.astype(np.int32)
 
                     # Save
                     with open(proj_file, 'wb') as f:
@@ -504,25 +487,8 @@ class ScannetDataset(Dataset):
                     labels = np.zeros(vertices.shape[0], dtype=np.int32)
 
                     # Compute projection inds
-                    inds = np.squeeze(self.input_trees['test'][i_test].query(vertices, return_distance=False))
-                    proj_inds = [[] for _ in range(self.input_trees['test'][i_test].data.shape[0])]
-                    for o_ind, sub_ind in enumerate(inds):
-                        proj_inds[sub_ind] += [o_ind]
-                    proj_inds = np.array([np.array(ind_list, dtype=np.int32) for ind_list in proj_inds])
-
-                    """
-                    # Projection inds already computed for majority of vert indices
-                    proj_inds = [[vert_ind] for vert_ind in self.input_vert_inds['test'][i_test]]
-
-                    # For mesh inds that do not have a point in the cloud projecting to them (with vert_inds), add
-                    # nearest neighbor projection
-                    unprojected_verts = np.where(np.bincount(self.input_vert_inds['test'][i_test]) == 0)[0]
-                    inds = np.squeeze(self.input_trees['test'][i_test].query(vertices[unprojected_verts, :],
-                                                                                  return_distance=False))
-                    for o_ind, sub_ind in zip(unprojected_verts, inds):
-                        proj_inds[sub_ind] += [o_ind]
-                    proj_inds = np.array([np.array(ind_list, dtype=np.int32) for ind_list in proj_inds])
-                    """
+                    proj_inds = np.squeeze(self.input_trees['test'][i_test].query(vertices, return_distance=False))
+                    proj_inds = proj_inds.astype(np.int32)
 
                     with open(proj_file, 'wb') as f:
                         pickle.dump([proj_inds, labels], f)

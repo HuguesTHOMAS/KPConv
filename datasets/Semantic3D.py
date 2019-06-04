@@ -384,11 +384,8 @@ class Semantic3DDataset(Dataset):
                     labels = data['class']
 
                     # Compute projection inds
-                    inds = np.squeeze(self.input_trees['validation'][i_val].query(points, return_distance=False))
-                    proj_inds = [[] for _ in range(self.input_labels['validation'][i_val].shape[0])]
-                    for o_ind, sub_ind in enumerate(inds):
-                        proj_inds[sub_ind] += [o_ind]
-                    proj_inds = np.array([np.array(ind_list, dtype=np.int32) for ind_list in proj_inds])
+                    proj_inds = np.squeeze(self.input_trees['validation'][i_val].query(points, return_distance=False))
+                    proj_inds = proj_inds.astype(np.int32)
 
                     # Save
                     with open(proj_file, 'wb') as f:
@@ -415,11 +412,8 @@ class Semantic3DDataset(Dataset):
                     labels = np.zeros(points.shape[0], dtype=np.int32)
 
                     # Compute projection inds
-                    inds = np.squeeze(self.input_trees['test'][i_test].query(points, return_distance=False))
-                    proj_inds = [[] for _ in range(self.input_trees['test'][i_test].data.shape[0])]
-                    for o_ind, sub_ind in enumerate(inds):
-                        proj_inds[sub_ind] += [o_ind]
-                    proj_inds = np.array([np.array(ind_list, dtype=np.int32) for ind_list in proj_inds])
+                    proj_inds = np.squeeze(self.input_trees['test'][i_test].query(points, return_distance=False))
+                    proj_inds = proj_inds.astype(np.int32)
 
                     # Save
                     with open(proj_file, 'wb') as f:
