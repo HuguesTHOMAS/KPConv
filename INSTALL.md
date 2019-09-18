@@ -32,3 +32,8 @@
 
 You should now be able to train Kernel-Point Convolution models
 
+### Installation instructions for Ubuntu 18.04 (Thank to @noahtren)
+
+* Remove the `-D_GLIBCXX_USE_CXX11_ABI=0` flag for each line in `tf_custom_ops/compile_op.sh` (problem with the version of gcc). One configuration has been tested:
+
+     - TensorFlow 1.12.0, CUDA 9.0 and cuDNN 7.3.1
