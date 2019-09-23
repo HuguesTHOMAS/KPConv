@@ -43,6 +43,8 @@ We provide scripts for many experiments. The instructions to run these experimen
  tasks (S3DIS, Scannet, Semantic3D, NPM3D).
  
 * [New Dataset](./doc/new_dataset_guide.md): Instructions to train KPConv networks on your own data.
+ 
+* [Pretrained models](./doc/pretrained_models_guide.md): We provide pretrained weights and instructions to load them.
 
 * Visualization of learned features (TODO).
 
