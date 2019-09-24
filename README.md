@@ -58,16 +58,16 @@ We provide scripts for many experiments. The instructions to run these experimen
 The following tables report the current performances on different tasks and datasets. Some scores have been improved 
 since the article submission.
 
-### 3D shapes classification and segmentation
+### Classification and segmentation of 3D shapes
 
 | Method | ModelNet40 OA | ShapeNetPart classes mIoU | ShapeNetPart instances mIoU |
 | :--- | :---: | :---: | :---: |
 | KPConv _rigid_      | **92.9%** | 85.0%   | 86.2%   |
 | KPConv _deform_     | 92.7%   | **85.1%** | **86.4%** |
 
-### 3D scene segmentation
+### Segmentation of 3D scenes
 
-| Method | Scannet mIoU |  Sem3D mIoU  |  S3DIS mIoU  |  PL3D mIoU  |
+| Method | Scannet mIoU |  Sem3D mIoU  |  S3DIS mIoU  |  NPM3D mIoU  |
 | :--- | :---: | :---: | :---: | :---: |
 | KPConv _rigid_      | **68.6%** | **74.6%** | 65.4%   | 72.3%   |
 | KPConv _deform_     | 68.4%   | 73.1%  | **67.1%** | **82.0%** |
