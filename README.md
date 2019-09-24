@@ -20,7 +20,7 @@ research, please consider citing:
 
 **Update 03/05/2019, bug found with TF 1.13 and CUDA 10.** 
 We found an internal bug inside tf.matmul operation. It returns absurd values like 1e12, leading to the 
-apparition of NaNs in our network. We advise to use the code with an older version of tensorflow (TF 1.12 works well).
+apparition of NaNs in our network. We advise to use the code with CUDA 9.0 and TF 1.12.
 More info in [issue #15](https://github.com/HuguesTHOMAS/KPConv/issues/15)
 
 ## Installation
