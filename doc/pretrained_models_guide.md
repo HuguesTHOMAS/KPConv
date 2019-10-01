@@ -4,9 +4,9 @@
 
 ### Data
 
-We provide two pretrained models:
-- A scene segmentation network trained on S3DIS: <a href="https://drive.google.com/open?id=1h9xlfPhbcThFVhVsNV3ocd8bjxrWXARV">link (50 MB)</a>
-- A scene segmentation network trained on NPM3D: <a href="https://drive.google.com/open?id=1U87KtFfK8RcgDKXNstwMxapNDOJ6DrNi">link (54 MB)</a>
+We provide two examples of pretrained models:
+- A network with rigid KPConv trained on S3DIS: <a href="https://drive.google.com/open?id=1h9xlfPhbcThFVhVsNV3ocd8bjxrWXARV">link (50 MB)</a>
+- A network with deformable KPConv trained on NPM3D: <a href="https://drive.google.com/open?id=1U87KtFfK8RcgDKXNstwMxapNDOJ6DrNi">link (54 MB)</a>
 
 
 
