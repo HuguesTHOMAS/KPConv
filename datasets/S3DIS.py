@@ -134,10 +134,16 @@ class S3DISDataset(Dataset):
         # Path of the training files
         self.train_path = 'original_ply'
 
+        # List of files to process
+        ply_path = join(self.path, self.train_path)
+
         # Proportion of validation scenes
         self.cloud_names = ['Area_1', 'Area_2', 'Area_3', 'Area_4', 'Area_5', 'Area_6']
         self.all_splits = [0, 1, 2, 3, 4, 5]
-        self.validation_split = 5
+        self.validation_split = 4
+
+        # List of training files
+        self.train_files = [join(ply_path, f + '.ply') for f in self.cloud_names]
 
         ###################
         # Prepare ply files
@@ -221,10 +227,6 @@ class S3DISDataset(Dataset):
         tree_path = join(self.path, 'input_{:.3f}'.format(subsampling_parameter))
         if not exists(tree_path):
             makedirs(tree_path)
-
-        # List of files to process
-        ply_path = join(self.path, self.train_path)
-        self.train_files = [join(ply_path, f + '.ply') for f in self.cloud_names]
 
         # Initiate containers
         self.input_trees = {'training': [], 'validation': []}
@@ -332,7 +334,7 @@ class S3DISDataset(Dataset):
                     proj_inds = np.squeeze(self.input_trees['validation'][i_val].query(points, return_distance=False))
                     proj_inds = proj_inds.astype(np.int32)
 
-                    # Save
+                    # Save
                     with open(proj_file, 'wb') as f:
                         pickle.dump([proj_inds, labels], f)
 
@@ -379,6 +381,13 @@ class S3DISDataset(Dataset):
             # First compute the number of point we want to pick in each cloud and for each class
             epoch_n = config.validation_size * config.batch_num
 
+        elif split == 'ERF':
+
+            # First compute the number of point we want to pick in each cloud and for each class
+            epoch_n = 1000000
+            self.batch_limit = 1
+            np.random.seed(42)
+
         else:
             raise ValueError('Split argument in data generator should be "training", "validation" or "test"')
 
@@ -390,7 +399,10 @@ class S3DISDataset(Dataset):
         # Reset potentials
         self.potentials[split] = []
         self.min_potentials[split] = []
-        for i, tree in enumerate(self.input_colors[split]):
+        data_split = split
+        if split == 'ERF':
+            data_split = 'validation'
+        for i, tree in enumerate(self.input_trees[data_split]):
             self.potentials[split] += [np.random.rand(tree.data.shape[0]) * 1e-3]
             self.min_potentials[split] += [float(np.min(self.potentials[split][-1]))]
 
@@ -537,6 +549,7 @@ class S3DISDataset(Dataset):
             # Generator loop
             for i in range(epoch_n):
 
+
                 # Choose a random cloud
                 cloud_ind = int(np.argmin(self.min_potentials[split]))
 
@@ -544,45 +557,50 @@ class S3DISDataset(Dataset):
                 point_ind = np.argmin(self.potentials[split][cloud_ind])
 
                 # Get points from tree structure
-                points = np.array(self.input_trees[split][cloud_ind].data, copy=False)
+                points = np.array(self.input_trees[data_split][cloud_ind].data, copy=False)
 
                 # Center point of input region
                 center_point = points[point_ind, :].reshape(1, -1)
 
                 # Add noise to the center point
-                noise = np.random.normal(scale=config.in_radius/10, size=center_point.shape)
-                pick_point = center_point + noise.astype(center_point.dtype)
+                if split != 'ERF':
+                    noise = np.random.normal(scale=config.in_radius/10, size=center_point.shape)
+                    pick_point = center_point + noise.astype(center_point.dtype)
+                else:
+                    pick_point = center_point
 
                 # Indices of points in input region
-                input_inds = self.input_trees[split][cloud_ind].query_radius(pick_point,
+                input_inds = self.input_trees[data_split][cloud_ind].query_radius(pick_point,
                                                                              r=config.in_radius)[0]
 
                 # Number collected
                 n = input_inds.shape[0]
 
                 # Update potentials (Tuckey weights)
-                dists = np.sum(np.square((points[input_inds] - pick_point).astype(np.float32)), axis=1)
-                tukeys = np.square(1 - dists / np.square(config.in_radius))
-                tukeys[dists > np.square(config.in_radius)] = 0
-                self.potentials[split][cloud_ind][input_inds] += tukeys
-                self.min_potentials[split][cloud_ind] = float(np.min(self.potentials[split][cloud_ind]))
+                if split != 'ERF':
+                    dists = np.sum(np.square((points[input_inds] - pick_point).astype(np.float32)), axis=1)
+                    tukeys = np.square(1 - dists / np.square(config.in_radius))
+                    tukeys[dists > np.square(config.in_radius)] = 0
+                    self.potentials[split][cloud_ind][input_inds] += tukeys
+                    self.min_potentials[split][cloud_ind] = float(np.min(self.potentials[split][cloud_ind]))
 
-                # Safe check for very dense areas
-                if n > self.batch_limit:
-                    input_inds = np.random.choice(input_inds, size=int(self.batch_limit)-1, replace=False)
-                    n = input_inds.shape[0]
+                    # Safe check for very dense areas
+                    if n > self.batch_limit:
+                        input_inds = np.random.choice(input_inds, size=int(self.batch_limit)-1, replace=False)
+                        n = input_inds.shape[0]
 
                 # Collect points and colors
                 input_points = (points[input_inds] - pick_point).astype(np.float32)
-                input_colors = self.input_colors[split][cloud_ind][input_inds]
-                if split == 'test':
+                input_colors = self.input_colors[data_split][cloud_ind][input_inds]
+                if split in ['test', 'ERF']:
                     input_labels = np.zeros(input_points.shape[0])
                 else:
-                    input_labels = self.input_labels[split][cloud_ind][input_inds]
+                    input_labels = self.input_labels[data_split][cloud_ind][input_inds]
                     input_labels = np.array([self.label_to_idx[l] for l in input_labels])
 
                 # In case batch is full, yield it and reset it
                 if batch_n + n > self.batch_limit and batch_n > 0:
+
                     yield (np.concatenate(p_list, axis=0),
                            np.concatenate(c_list, axis=0),
                            np.concatenate(pl_list, axis=0),
@@ -627,7 +645,7 @@ class S3DISDataset(Dataset):
         elif split == 'validation':
             gen_func = spatially_regular_gen
 
-        elif split == 'test':
+        elif split in ['test', 'ERF']:
             gen_func = spatially_regular_gen
 
         else:

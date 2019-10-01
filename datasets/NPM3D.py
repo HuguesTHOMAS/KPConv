@@ -136,6 +136,11 @@ class NPM3DDataset(Dataset):
         self.train_path = join(self.path, 'training_points')
         self.test_path = join(self.path, 'test_points')
 
+
+        # List of training and test files
+        self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
+        self.test_files = np.sort([join(self.test_path, f) for f in listdir(self.test_path) if f[-4:] == '.ply'])
+
         # Proportion of validation scenes
         self.all_splits = [0, 1, 2, 3]
         self.validation_split = 1
@@ -153,11 +158,7 @@ class NPM3DDataset(Dataset):
         if not exists(tree_path):
             makedirs(tree_path)
 
-        # List of training files
-        self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
-
-        # Add test files
-        self.test_files = np.sort([join(self.test_path, f) for f in listdir(self.test_path) if f[-4:] == '.ply'])
+        # All training and test files
         files = np.hstack((self.train_files, self.test_files))
 
         # Initiate containers
@@ -376,6 +377,13 @@ class NPM3DDataset(Dataset):
             # First compute the number of point we want to pick in each cloud and for each class
             epoch_n = config.validation_size * config.batch_num
 
+        elif split == 'ERF':
+
+            # First compute the number of point we want to pick in each cloud and for each class
+            epoch_n = 1000000
+            self.batch_limit = 1
+            np.random.seed(42)
+
         else:
             raise ValueError('Split argument in data generator should be "training", "validation" or "test"')
 
@@ -387,7 +395,10 @@ class NPM3DDataset(Dataset):
         # Reset potentials
         self.potentials[split] = []
         self.min_potentials[split] = []
-        for i, tree in enumerate(self.input_colors[split]):
+        data_split = split
+        if split == 'ERF':
+            data_split = 'test'
+        for i, tree in enumerate(self.input_trees[data_split]):
             self.potentials[split] += [np.random.rand(tree.data.shape[0]) * 1e-3]
             self.min_potentials[split] += [float(np.min(self.potentials[split][-1]))]
 
@@ -541,41 +552,45 @@ class NPM3DDataset(Dataset):
                 point_ind = np.argmin(self.potentials[split][cloud_ind])
 
                 # Get points from tree structure
-                points = np.array(self.input_trees[split][cloud_ind].data, copy=False)
+                points = np.array(self.input_trees[data_split][cloud_ind].data, copy=False)
 
                 # Center point of input region
                 center_point = points[point_ind, :].reshape(1, -1)
 
                 # Add noise to the center point
-                noise = np.random.normal(scale=config.in_radius/10, size=center_point.shape)
-                pick_point = center_point + noise.astype(center_point.dtype)
+                if split != 'ERF':
+                    noise = np.random.normal(scale=config.in_radius/10, size=center_point.shape)
+                    pick_point = center_point + noise.astype(center_point.dtype)
+                else:
+                    pick_point = center_point
 
                 # Indices of points in input region
-                input_inds = self.input_trees[split][cloud_ind].query_radius(pick_point,
+                input_inds = self.input_trees[data_split][cloud_ind].query_radius(pick_point,
                                                                              r=config.in_radius)[0]
 
                 # Number collected
                 n = input_inds.shape[0]
 
                 # Update potentials (Tuckey weights)
-                dists = np.sum(np.square((points[input_inds] - pick_point).astype(np.float32)), axis=1)
-                tukeys = np.square(1 - dists / np.square(config.in_radius))
-                tukeys[dists > np.square(config.in_radius)] = 0
-                self.potentials[split][cloud_ind][input_inds] += tukeys
-                self.min_potentials[split][cloud_ind] = float(np.min(self.potentials[split][cloud_ind]))
+                if split != 'ERF':
+                    dists = np.sum(np.square((points[input_inds] - pick_point).astype(np.float32)), axis=1)
+                    tukeys = np.square(1 - dists / np.square(config.in_radius))
+                    tukeys[dists > np.square(config.in_radius)] = 0
+                    self.potentials[split][cloud_ind][input_inds] += tukeys
+                    self.min_potentials[split][cloud_ind] = float(np.min(self.potentials[split][cloud_ind]))
 
-                # Safe check for very dense areas
-                if n > self.batch_limit:
-                    input_inds = np.random.choice(input_inds, size=int(self.batch_limit)-1, replace=False)
-                    n = input_inds.shape[0]
+                    # Safe check for very dense areas
+                    if n > self.batch_limit:
+                        input_inds = np.random.choice(input_inds, size=int(self.batch_limit)-1, replace=False)
+                        n = input_inds.shape[0]
 
                 # Collect points and colors
                 input_points = (points[input_inds] - pick_point).astype(np.float32)
-                input_colors = self.input_colors[split][cloud_ind][input_inds]
-                if split == 'test':
+                input_colors = self.input_colors[data_split][cloud_ind][input_inds]
+                if split in ['test', 'ERF']:
                     input_labels = np.zeros(input_points.shape[0])
                 else:
-                    input_labels = self.input_labels[split][cloud_ind][input_inds]
+                    input_labels = self.input_labels[data_split][cloud_ind][input_inds]
                     input_labels = np.array([self.label_to_idx[l] for l in input_labels])
 
                 # In case batch is full, yield it and reset it
@@ -624,7 +639,7 @@ class NPM3DDataset(Dataset):
         elif split == 'validation':
             gen_func = spatially_regular_gen
 
-        elif split == 'test':
+        elif split in ['test', 'ERF']:
             gen_func = spatially_regular_gen
 
         else:

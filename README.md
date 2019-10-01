@@ -45,12 +45,9 @@ We provide scripts for many experiments. The instructions to run these experimen
 * [New Dataset](./doc/new_dataset_guide.md): Instructions to train KPConv networks on your own data.
  
 * [Pretrained models](./doc/pretrained_models_guide.md): We provide pretrained weights and instructions to load them.
-
-* Visualization of learned features (TODO).
-
-* Visualization of learned kernel deformations (TODO).
-
-* Visualization of Effective Receptive Fields (TODO).
+ 
+* [Visualization scripts](./doc/visualization_guide.md): Instructions to use the three scripts allowing to visualize: 
+the learned features, the kernel deformations and the Effective Receptive Fields.
 
 
 ## Performances

@@ -137,13 +137,17 @@ class Semantic3DDataset(Dataset):
 
         # Path of the training files
         self.train_path = join(self.path, 'ply_subsampled/train')
-        self.test_path = join(self.path, 'ply_full/reduced-8')
+        self.test_path = join(self.path, 'ply_subsampled/reduced-8')
         #self.test_path = join(self.path, 'ply_subsampled/semantic-8')
+
+        # List of training and test files
+        self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
+        self.test_files = np.sort([join(self.test_path, f) for f in listdir(self.test_path) if f[-4:] == '.ply'])
 
         # Proportion of validation scenes (chose validation split = 6 for final networks)
         # self.all_splits=[0, 1, 4, 2, 3, 4, 3, 0, 1, 2, 3, 4, 2, 0, 1]
         self.all_splits = [0, 1, 4, 5, 3, 4, 3, 0, 1, 2, 3, 4, 2, 0, 5]
-        self.validation_split = 6
+        self.validation_split = 5
 
         # Ascii files dict for testing
         self.ascii_files = {'MarketplaceFeldkirch_Station4_rgb_intensity-reduced.ply': 'marketsquarefeldkirch4-reduced.labels',
@@ -244,11 +248,7 @@ class Semantic3DDataset(Dataset):
         if not exists(tree_path):
             makedirs(tree_path)
 
-        # List of training files
-        self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
-
-        # Add test files
-        self.test_files = np.sort([join(self.test_path, f) for f in listdir(self.test_path) if f[-4:] == '.ply'])
+        # All training and test files
         files = np.hstack((self.train_files, self.test_files))
 
         # Initiate containers
@@ -468,7 +468,8 @@ class Semantic3DDataset(Dataset):
         elif split == 'ERF':
 
             # First compute the number of point we want to pick in each cloud and for each class
-            epoch_n = config.validation_size * config.batch_num
+            epoch_n = 1000000
+            self.batch_limit = 1
             np.random.seed(42)
 
         else:
@@ -639,17 +640,20 @@ class Semantic3DDataset(Dataset):
                 point_ind = np.argmin(self.potentials[split][cloud_ind])
 
                 # Get points from tree structure
-                points = np.array(self.input_trees[split][cloud_ind].data, copy=False)
+                points = np.array(self.input_trees[data_split][cloud_ind].data, copy=False)
 
                 # Center point of input region
                 center_point = points[point_ind, :].reshape(1, -1)
 
                 # Add noise to the center point
-                noise = np.random.normal(scale=config.in_radius/10, size=center_point.shape)
-                pick_point = center_point + noise.astype(center_point.dtype)
+                if split != 'ERF':
+                    noise = np.random.normal(scale=config.in_radius/10, size=center_point.shape)
+                    pick_point = center_point + noise.astype(center_point.dtype)
+                else:
+                    pick_point = center_point
 
                 # Indices of points in input region
-                input_inds = self.input_trees[split][cloud_ind].query_radius(pick_point,
+                input_inds = self.input_trees[data_split][cloud_ind].query_radius(pick_point,
                                                                              r=config.in_radius)[0]
 
                 # Number collected
@@ -663,18 +667,18 @@ class Semantic3DDataset(Dataset):
                     self.potentials[split][cloud_ind][input_inds] += tukeys
                     self.min_potentials[split][cloud_ind] = float(np.min(self.potentials[split][cloud_ind]))
 
-                # Safe check for very dense areas
-                if n > self.batch_limit:
-                    input_inds = np.random.choice(input_inds, size=int(self.batch_limit)-1, replace=False)
-                    n = input_inds.shape[0]
+                    # Safe check for very dense areas
+                    if n > self.batch_limit:
+                        input_inds = np.random.choice(input_inds, size=int(self.batch_limit)-1, replace=False)
+                        n = input_inds.shape[0]
 
                 # Collect points and colors
                 input_points = (points[input_inds] - pick_point).astype(np.float32)
-                input_colors = self.input_colors[split][cloud_ind][input_inds]
+                input_colors = self.input_colors[data_split][cloud_ind][input_inds]
                 if split in ['test', 'ERF']:
                     input_labels = np.zeros(input_points.shape[0])
                 else:
-                    input_labels = self.input_labels[split][cloud_ind][input_inds]
+                    input_labels = self.input_labels[data_split][cloud_ind][input_inds]
                     input_labels = np.array([self.label_to_idx[l] for l in input_labels])
 
                 # In case batch is full, yield it and reset it

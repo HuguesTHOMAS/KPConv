@@ -55,7 +55,7 @@ def visu_caller(path, step_ind, deform_idx):
     ##########################
 
     # Choose which gpu to use
-    GPU_ID = '1'
+    GPU_ID = '0'
 
     # Set GPU visible device
     os.environ['CUDA_VISIBLE_DEVICES'] = GPU_ID
@@ -81,7 +81,7 @@ def visu_caller(path, step_ind, deform_idx):
     #config.augment_symmetries = False
 
     config.batch_num = 3
-    config.in_radius = 10
+    config.in_radius = 4
 
     ##############
     # Prepare Data
@@ -150,7 +150,7 @@ def visu_caller(path, step_ind, deform_idx):
     chosen_snap = os.path.join(path, 'snapshots', 'snap-{:d}'.format(chosen_step))
 
     # Create a tester class
-    visualiser = ModelVisualizer(model, restore_snap=chosen_snap)
+    visualizer = ModelVisualizer(model, restore_snap=chosen_snap)
     t2 = time.time()
 
     print('\n----------------')
@@ -158,13 +158,13 @@ def visu_caller(path, step_ind, deform_idx):
     print('----------------\n')
 
     #####################
-    # Start visualisation
+    # Start visualization
     #####################
 
-    print('Start Visualisation')
+    print('Start visualization')
     print('*******************\n')
 
-    visualiser.show_deformable_kernels(model, dataset, deform_idx)
+    visualizer.show_deformable_kernels(model, dataset, deform_idx)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -192,7 +192,7 @@ if __name__ == '__main__':
     #       > 'results/Log_YYYY-MM-DD_HH-MM-SS': Directly provide the path of a trained model
     #
 
-    chosen_log = 'results/Log_2019-03-12_18-10-43'  # => deformable
+    chosen_log = 'results/Log_2019-03-27_20-31-49'  # => NPM3D
 
     #
     #   You can also choose the index of the snapshot to load (last by default)

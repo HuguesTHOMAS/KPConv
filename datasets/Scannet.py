@@ -145,6 +145,10 @@ class ScannetDataset(Dataset):
         self.train_path = join(self.path, 'training_points')
         self.test_path = join(self.path, 'test_points')
 
+        # List of training and test files
+        self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
+        self.test_files = np.sort([join(self.test_path, f) for f in listdir(self.test_path) if f[-4:] == '.ply'])
+
         # Proportion of validation scenes
         self.validation_clouds = np.loadtxt(join(self.path, 'scannet_v2_val.txt'), dtype=np.str)
 
@@ -305,11 +309,7 @@ class ScannetDataset(Dataset):
         if not exists(tree_path):
             makedirs(tree_path)
 
-        # List of training files
-        self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
-
-        # Add test files
-        self.test_files = np.sort([join(self.test_path, f) for f in listdir(self.test_path) if f[-4:] == '.ply'])
+        # All training and test files
         files = np.hstack((self.train_files, self.test_files))
 
         # Initiate containers
@@ -725,7 +725,6 @@ class ScannetDataset(Dataset):
                     pick_point = center_point + noise.astype(center_point.dtype)
                 else:
                     pick_point = center_point
-
 
                 # Indices of points in input region
                 input_inds = self.input_trees[data_split][cloud_ind].query_radius(pick_point,

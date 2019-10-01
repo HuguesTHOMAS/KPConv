@@ -50,6 +50,26 @@ from datasets.Scannet import ScannetDataset
 
 def visu_caller(path, step_ind, relu_idx, compute_activations):
 
+    # Check if activation have already been computed
+    if relu_idx is not None:
+        visu_path = os.path.join('visu',
+                                 'visu_' + path.split('/')[-1],
+                                 'top_activations',
+                                 'Relu{:02d}'.format(relu_idx))
+        if not os.path.exists(visu_path):
+            message = 'No activations found for Relu number {:d} of the model {:s}.'
+            print(message.format(relu_idx, path.split('/')[-1]))
+            compute_activations = True
+        else:
+            # Get the list of files
+            feature_files = np.sort([f for f in os.listdir(visu_path) if f.endswith('.ply')])
+            if len(feature_files) == 0:
+                message = 'No activations found for Relu number {:d} of the model {:s}.'
+                print(message.format(relu_idx, path.split('/')[-1]))
+                compute_activations = True
+    else:
+        compute_activations = True
+
     if compute_activations:
 
         ##########################
@@ -57,7 +77,7 @@ def visu_caller(path, step_ind, relu_idx, compute_activations):
         ##########################
 
         # Choose which gpu to use
-        GPU_ID = '1'
+        GPU_ID = '0'
 
         # Set GPU visible device
         os.environ['CUDA_VISIBLE_DEVICES'] = GPU_ID
@@ -83,7 +103,7 @@ def visu_caller(path, step_ind, relu_idx, compute_activations):
         #config.augment_symmetries = False
 
         config.batch_num = 3
-        config.in_radius = 10
+        config.in_radius = 4
         config.validation_size = 200
 
         ##############
@@ -153,7 +173,7 @@ def visu_caller(path, step_ind, relu_idx, compute_activations):
         chosen_snap = os.path.join(path, 'snapshots', 'snap-{:d}'.format(chosen_step))
 
         # Create a tester class
-        visualiser = ModelVisualizer(model, restore_snap=chosen_snap)
+        visualizer = ModelVisualizer(model, restore_snap=chosen_snap)
         t2 = time.time()
 
         print('\n----------------')
@@ -161,13 +181,13 @@ def visu_caller(path, step_ind, relu_idx, compute_activations):
         print('----------------\n')
 
         #####################
-        # Start visualisation
+        # Start visualization
         #####################
 
-        print('Start Visualisation')
+        print('Start visualization')
         print('*******************\n')
 
-        visualiser.top_relu_activations(model, dataset, relu_idx)
+        relu_idx = visualizer.top_relu_activations(model, dataset, relu_idx)
 
     # Show the computed activations
     ModelVisualizer.show_activation(path, relu_idx)
@@ -197,12 +217,8 @@ if __name__ == '__main__':
     #       > 'results/Log_YYYY-MM-DD_HH-MM-SS': Directly provide the path of a trained model
     #
 
-    # Shapenetpart
-    chosen_log = 'results/Log_2019-03-21_12-17-11'  # => normal
-    #chosen_log = 'results/Log_2019-03-21_12-17-48'  # => deformable
-
-    #chosen_log = 'results/Log_2019-03-12_18-10-43'  # => deformable
-
+    # S3DIS
+    chosen_log = 'results/Log_2019-03-19_19-14-24'  # => normal KPConv
 
     #
     #   You can also choose the index of the snapshot to load (last by default)
@@ -211,14 +227,16 @@ if __name__ == '__main__':
     chosen_snapshot = -1
 
     #
-    #   Eventually you can choose which feature is visualized (index of the deform operation in the network)
+    #   Eventually you can choose which feature is visualized (index of the deform operation in the network).
+    #   Let it be None to choose later.
     #
 
-    #chosen_relu = 3
-    chosen_relu = 21
+    chosen_relu = 0
 
     #
-    #   If you arleady computed the activations, set this parameter to false to directly show the results
+    #   Because of the time needed to compute feature activations for the test set, if you already computed them, they
+    #   are saved and used again. Set this parameter to True if you want to compute new activations and erase the old
+    #   ones. N.B. if chosen_relu = None, the code always recompute activations. Chose a relu idx to avoid it.
     #
 
     compute_activations = False
@@ -253,8 +271,8 @@ if __name__ == '__main__':
             raise ValueError('No log of the dataset "' + test_dataset + '" found')
 
     # Check if log exists
-    #if not os.path.exists(chosen_log):
-    #    raise ValueError('The given log does not exists: ' + chosen_log)
+    # if not os.path.exists(chosen_log):
+    #     raise ValueError('The given log does not exists: ' + chosen_log)
 
     # Let's go
     visu_caller(chosen_log, chosen_snapshot, chosen_relu, compute_activations)

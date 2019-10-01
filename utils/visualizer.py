@@ -100,13 +100,16 @@ class ModelVisualizer:
         all_ops = [op for op in tf.get_default_graph().get_operations() if op.name.startswith('KernelPointNetwork')
                    and op.name.endswith('LeakyRelu')]
 
-        # Non relu ops in case we want the first KPConv features
-        KPConv_0 = [op for op in tf.get_default_graph().get_operations() if op.name.endswith('layer_0/simple_0/Sum_1')]
+        # List all possible Relu indices
+        print('\nPossible Relu indices:')
+        for i, t in enumerate(all_ops):
+            print(i, ': ', t.name)
 
         # Print the chosen one
-        if relu_idx == 0:
-            features_tensor = KPConv_0[relu_idx].outputs[0]
+        if relu_idx is not None:
+            features_tensor = all_ops[relu_idx].outputs[0]
         else:
+            relu_idx = int(input('Choose a Relu index: '))
             features_tensor = all_ops[relu_idx].outputs[0]
 
         # Get parameters
@@ -116,17 +119,8 @@ class ModelVisualizer:
         features_dim = int(features_tensor.shape[1])
         radius = model.config.first_subsampling_dl * model.config.density_parameter * (2 ** layer_idx)
 
-        if relu_idx == 0 :
-            print('SPECIAL CASE : relu_idx = 0 => visualization of the fist KPConv before relu')
-            print('You chose to visualize the output of operation named: ' + KPConv_0[0].name)
-            print('It contains {:d} features.'.format(int(features_tensor.shape[1])))
-        else :
-            print('You chose to visualize the output of operation named: ' + all_ops[relu_idx].name)
-            print('It contains {:d} features.'.format(int(features_tensor.shape[1])))
-
-        print('\nPossible Relu indices:')
-        for i, t in enumerate(all_ops):
-            print(i, ': ', t.name)
+        print('You chose to compute the output of operation named:\n' + all_ops[relu_idx].name)
+        print('\nIt contains {:d} features.'.format(int(features_tensor.shape[1])))
 
         print('\n****************************************************************************')
 
@@ -201,7 +195,6 @@ class ModelVisualizer:
                     t += [time.time()]
                     count += in_batches.shape[0]
 
-
                     # Stack all batches
                     max_ind = np.max(in_batches)
                     stacked_batches = []
@@ -250,7 +243,7 @@ class ModelVisualizer:
                 except tf.errors.OutOfRangeError:
                     break
 
-        return
+        return relu_idx
 
     def update_top_activations(self, features, label, l_points, input_points, radius, max_computed=60):
 
@@ -333,7 +326,11 @@ class ModelVisualizer:
         all_ops = [op for op in tf.get_default_graph().get_operations() if op.name.startswith('KernelPointNetwork')
                    and op.name.endswith('deformed_KP')]
 
-        # Chosen deformations
+        print('\nPossible deformed indices:')
+        for i, t in enumerate(all_ops):
+            print(i, ': ', t.name)
+
+        # Chosen deformations
         deformed_KP_tensor = all_ops[deform_idx].outputs[0]
 
         # Layer index
@@ -352,10 +349,6 @@ class ModelVisualizer:
         chosen_KP = np.argmax(test)
 
         print('You chose to visualize the output of operation named: ' + all_ops[deform_idx].name)
-
-        print('\nPossible deformed indices:')
-        for i, t in enumerate(all_ops):
-            print(i, ': ', t.name)
 
         print('\n****************************************************************************')
 
@@ -413,8 +406,11 @@ class ModelVisualizer:
                     in_points += [all_points[0][b]]
                     deformed_KP += [stacked_deformed_KP[stacked_batches == b_i]]
                     points += [all_points[layer_idx][stacked_batches == b_i]]
-                    in_colors += [all_colors[b, 1:]]
                     lookuptrees += [KDTree(points[-1])]
+                    if all_colors.shape[1] == 4:
+                        in_colors += [all_colors[b, 1:]]
+                    else:
+                        in_colors += [None]
 
                 print('New batch size : ', len(in_batches))
 
@@ -423,12 +419,12 @@ class ModelVisualizer:
                 ###########################
 
                 # Create figure for features
-                fig1 = mlab.figure('Features', bgcolor=(0.5, 0.5, 0.5), size=(1280, 920))
+                fig1 = mlab.figure('Features', bgcolor=(1.0, 1.0, 1.0), size=(1280, 920))
                 fig1.scene.parallel_projection = False
 
                 # Indices
                 global obj_i, point_i, plots, offsets, p_scale, show_in_p, aim_point
-                p_scale = 0.01
+                p_scale = 0.03
                 obj_i = 0
                 point_i = 0
                 plots = {}
@@ -495,24 +491,37 @@ class ModelVisualizer:
                         # Get points and colors
                         in_p = in_points[obj_i]
                         in_p = (in_p * 1.5 / model.config.in_radius)
+
+                        # Color point cloud if possible
                         in_c = in_colors[obj_i]
+                        if in_c is not None:
 
-                        # Primitives
-                        scalars = np.arange(len(in_p))  # Key point: set an integer for each point
+                            # Primitives
+                            scalars = np.arange(len(in_p))  # Key point: set an integer for each point
 
-                        # Define color table (including alpha), which must be uint8 and [0,255]
-                        colors = np.hstack((in_c, np.ones_like(in_c[:, :1])))
-                        colors = (colors * 255).astype(np.uint8)
+                            # Define color table (including alpha), which must be uint8 and [0,255]
+                            colors = np.hstack((in_c, np.ones_like(in_c[:, :1])))
+                            colors = (colors * 255).astype(np.uint8)
 
-                        plots['in_points'] = mlab.points3d(in_p[:, 0],
-                                                           in_p[:, 1],
-                                                           in_p[:, 2],
-                                                           scalars,
-                                                           resolution=8,
-                                                           scale_factor=p_scale*0.8,
-                                                           scale_mode='none',
-                                                           figure=fig1)
-                        plots['in_points'].module_manager.scalar_lut_manager.lut.table = colors
+                            plots['in_points'] = mlab.points3d(in_p[:, 0],
+                                                               in_p[:, 1],
+                                                               in_p[:, 2],
+                                                               scalars,
+                                                               resolution=8,
+                                                               scale_factor=p_scale*0.8,
+                                                               scale_mode='none',
+                                                               figure=fig1)
+                            plots['in_points'].module_manager.scalar_lut_manager.lut.table = colors
+
+                        else:
+
+                            plots['in_points'] = mlab.points3d(in_p[:, 0],
+                                                               in_p[:, 1],
+                                                               in_p[:, 2],
+                                                               resolution=8,
+                                                               scale_factor=p_scale*0.8,
+                                                               scale_mode='none',
+                                                               figure=fig1)
 
 
                     # Get KP locations
@@ -540,7 +549,7 @@ class ModelVisualizer:
                                                 figure=fig1)
 
 
-                    if False:
+                    if True:
                         plots['center'] = mlab.points3d(p[point_i, 0],
                                                         p[point_i, 1],
                                                         p[point_i, 2],
@@ -795,10 +804,7 @@ class ModelVisualizer:
         self.sess.run(tf.variables_initializer([input_modulations_var]))
 
         # Initialise iterator with test data
-        if model.config.dataset.startswith('S3DIS'):
-            self.sess.run(dataset.val_init_op)
-        else:
-            self.sess.run(dataset.test_init_op)
+        self.sess.run(dataset.test_init_op)
         count = 0
 
         global plots, p_scale, show_in_p, remove_h, aim_point
@@ -839,7 +845,7 @@ class ModelVisualizer:
             if only_points:
                 num_tries = 1
             else:
-                num_tries = 20
+                num_tries = 10
 
             for test_i in range(num_tries):
 
@@ -925,7 +931,6 @@ class ModelVisualizer:
 
             # Rescale responses
             min_response, max_response = np.min(responses), np.max(responses)
-            print(min_response, max_response)
 
             # Show point cloud
             if show_in_p:
@@ -1094,38 +1099,6 @@ class ModelVisualizer:
         config.load(path)
         mode = config.convolution_mode
 
-        ########################
-        # Get values for filters
-        ########################
-
-        scalars, s_scale = None, None
-        y, x, z = None, None, None
-        if relu_idx == 0 and 'gaussian' in mode:
-
-            # Load KPCOnv points, sigmas and weights
-            kernel_points, kernel_extents, weights = ModelVisualizer.load_last_kernels(path)
-
-            # KPConv radius
-            r0 = config.first_subsampling_dl * config.density_parameter
-
-            # plotting grid
-            spacing = np.linspace(-r0, r0, 100)
-            y, x, z = np.meshgrid(spacing, spacing, spacing)
-
-            # Compute filter values for each grid point
-            grid_points = np.vstack((x.ravel(), y.ravel(), z.ravel())).T
-            scalars = ModelVisualizer.apply_weights(grid_points, kernel_points, weights, kernel_extents)
-
-            # Rescale grid for visu
-            x = x / r0
-            y = y / r0
-            z = z / r0
-
-            # Update extremes
-            s_min = np.min(scalars)
-            s_max = np.max(scalars)
-            s_scale = max(np.abs(s_min), np.abs(s_max))
-
         #################
         # Get activations
         #################
@@ -1147,10 +1120,6 @@ class ModelVisualizer:
         # Create figure for features
         fig1 = mlab.figure('Features', bgcolor=(0.5, 0.5, 0.5), size=(640, 480))
         fig1.scene.parallel_projection = False
-
-        # Create figure for filters
-        fig2 = mlab.figure('Filters', bgcolor=(0.5, 0.5, 0.5), size=(480, 480))
-        fig2.scene.parallel_projection = False
 
         # Indices
         global file_i
@@ -1187,43 +1156,6 @@ class ModelVisualizer:
             mlab.text(0.01, 0.01, text, color=(0, 0, 0), width=0.98)
             mlab.orientation_axes()
 
-
-            if relu_idx == 0 and 'gaussian' in mode:
-
-                #  clear figure
-                mlab.clf(fig2)
-
-                # Get scalars
-                feature_i = int(feature_files[file_i][1:5])
-                s = scalars[:, feature_i] / s_scale
-
-                # Find limits for colors
-                s0 = np.min(s)
-                s1 = np.max(s)
-                c1 = s0 + 0.20 * (s1 - s0)
-                c2 = s0 + 0.40 * (s1 - s0)
-                c3 = s0 + 0.60 * (s1 - s0)
-                c4 = s0 + 0.80 * (s1 - s0)
-
-                # Reshape scalars for the plot
-                s = s.reshape(x.shape)
-
-                # Plots
-                contour1 = mlab.contour3d(s, contours=[c1], opacity=1, vmin=-1, vmax=1, figure=fig2)
-                mlab.contour3d(s, contours=[c2], opacity=0.4, vmin=-1, vmax=1, figure=fig2)
-                mlab.contour3d(s, contours=[c3], opacity=0.4, vmin=-1, vmax=1, figure=fig2)
-                mlab.contour3d(s, contours=[c4], opacity=1, vmin=-1, vmax=1, figure=fig2)
-                mlab.plot3d([40, 110], [50, 50], [50, 50], color=(1, 0, 0), tube_radius=0.5, tube_sides=100)
-                mlab.plot3d([50, 50], [40, 110], [50, 50], color=(0, 1, 0), tube_radius=0.5, tube_sides=100)
-                mlab.plot3d([50, 50], [50, 50], [40, 110], color=(0, 0.7, 1), tube_radius=0.5, tube_sides=100)
-
-                # Add a colorbar
-                mlab.colorbar(contour1,
-                              orientation='vertical',
-                              title='filter values',
-                              nb_labels=5,
-                              label_fmt='%.1f')
-
             return
 
         def keyboard_callback(vtk_obj, event):
@@ -1244,8 +1176,6 @@ class ModelVisualizer:
         # Draw a first plot
         update_scene()
         fig1.scene.interactor.add_observer('KeyPressEvent', keyboard_callback)
-        if relu_idx == 0 and 'gaussian' in mode:
-            mlab.sync_camera(fig1, fig2)
         mlab.show()
 
         return

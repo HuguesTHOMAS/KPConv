@@ -88,7 +88,7 @@ def visu_caller(path, step_ind, relu_idx):
     config.augment_color = 1.0
 
     config.batch_num = 2
-    config.in_radius = 10
+    config.in_radius = 5
 
     ##############
     # Prepare Data
@@ -119,7 +119,7 @@ def visu_caller(path, step_ind, relu_idx):
     dl0 = config.first_subsampling_dl
     dataset.load_subsampled_clouds(dl0)
 
-    # Initiate ERF input pipeleine (only diff is taht it is not random)
+    # Initiate ERF input pipeleine (only diff is that it is not random)
     dataset.init_ERF_input_pipeline(config)
 
     ##############
@@ -154,7 +154,7 @@ def visu_caller(path, step_ind, relu_idx):
     chosen_snap = os.path.join(path, 'snapshots', 'snap-{:d}'.format(chosen_step))
 
     # Create a tester class
-    visualiser = ModelVisualizer(model, restore_snap=chosen_snap)
+    visualizer = ModelVisualizer(model, restore_snap=chosen_snap)
     t2 = time.time()
 
     print('\n----------------')
@@ -162,13 +162,13 @@ def visu_caller(path, step_ind, relu_idx):
     print('----------------\n')
 
     #####################
-    # Start visualisation
+    # Start visualization
     #####################
 
-    print('Start Visualisation')
+    print('Start visualization')
     print('*******************\n')
 
-    visualiser.show_effective_recep_field(model, dataset, relu_idx)
+    visualizer.show_effective_recep_field(model, dataset, relu_idx)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -196,13 +196,7 @@ if __name__ == '__main__':
     #       > 'results/Log_YYYY-MM-DD_HH-MM-SS': Directly provide the path of a trained model
     #
 
-    # Semantic3d
-    #chosen_log = 'results/Log_2019-03-13_10-21-04'  # => deformable
-    #chosen_log = 'results/Log_2019-03-10_01-08-49'  # => normal
-
-    # Scannet
-    chosen_log = 'results/Log_2019-03-12_18-10-43'  # => deformable
-    #chosen_log = 'results/Log_2019-03-11_19-11-27'  # => normal
+    chosen_log = 'results/Log_2019-03-19_19-14-24'  # => S3DIS, rigid KPConv
 
     #
     #   You can also choose the index of the snapshot to load (last by default)
