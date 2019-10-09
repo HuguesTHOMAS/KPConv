@@ -140,10 +140,12 @@ class ScannetDataset(Dataset):
         # Path of the folder containing ply files
         self.path = 'Data/Scannet'
 
-
         # Path of the training files
         self.train_path = join(self.path, 'training_points')
         self.test_path = join(self.path, 'test_points')
+
+        # Prepare ply files
+        self.prepare_pointcloud_ply()
 
         # List of training and test files
         self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
@@ -159,12 +161,6 @@ class ScannetDataset(Dataset):
         # Load test set or train set?
         self.load_test = load_test
 
-        ###################
-        # Prepare ply files
-        ###################
-
-        self.prepare_pointcloud_ply()
-
     def prepare_pointcloud_ply(self):
 
         print('\nPreparing ply files')
@@ -174,7 +170,6 @@ class ScannetDataset(Dataset):
         paths = [join(self.path, 'scans'), join(self.path, 'scans_test')]
         new_paths = [self.train_path, self.test_path]
         mesh_paths = [join(self.path, 'training_meshes'), join(self.path, 'test_meshes')]
-
 
         # Mapping from annot to NYU labels ID
         label_files = join(self.path, 'scannetv2-labels.combined.tsv')
@@ -222,7 +217,7 @@ class ScannetDataset(Dataset):
                     for line in lines:
                         line = line.split()
                         if line[0] == 'axisAlignment':
-                            align_mat = np.array([float(x) for x in line[2:]]).reshape([4, 4]).astype(np.int32)
+                            align_mat = np.array([float(x) for x in line[2:]]).reshape([4, 4]).astype(np.float32)
                     R = align_mat[:3, :3]
                     T = align_mat[:3, 3]
                     vertices = vertices.dot(R.T) + T
