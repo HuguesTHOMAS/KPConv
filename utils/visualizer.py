@@ -326,9 +326,12 @@ class ModelVisualizer:
         all_ops = [op for op in tf.get_default_graph().get_operations() if op.name.startswith('KernelPointNetwork')
                    and op.name.endswith('deformed_KP')]
 
-        print('\nPossible deformed indices:')
-        for i, t in enumerate(all_ops):
-            print(i, ': ', t.name)
+        if len(all_ops) > 0:
+            print('\nPossible deformed indices:')
+            for i, t in enumerate(all_ops):
+                print(i, ': ', t.name)
+        else:
+            raise ValueError('No deformable convolution found in this network')
 
         # Chosen deformations
         deformed_KP_tensor = all_ops[deform_idx].outputs[0]
