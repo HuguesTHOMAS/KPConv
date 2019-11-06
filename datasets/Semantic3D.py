@@ -137,8 +137,8 @@ class Semantic3DDataset(Dataset):
 
         # Path of the training files
         self.train_path = join(self.path, 'ply_subsampled/train')
-        self.test_path = join(self.path, 'ply_subsampled/reduced-8')
-        #self.test_path = join(self.path, 'ply_subsampled/semantic-8')
+        self.test_path = join(self.path, 'ply_full/reduced-8')
+        #self.test_path = join(self.path, 'ply_full/semantic-8')
 
         # List of training and test files
         self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
