@@ -26,6 +26,7 @@
 #include <numeric>
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 
 #include <time.h>
 
@@ -138,7 +139,7 @@ inline bool operator == (const PointXYZ A, const PointXYZ B)
 
 inline PointXYZ floor(const PointXYZ P)
 {
-	return PointXYZ(floor(P.x), floor(P.y), floor(P.z));
+	return PointXYZ(std::floor(P.x), std::floor(P.y), std::floor(P.z));
 }
 
 
