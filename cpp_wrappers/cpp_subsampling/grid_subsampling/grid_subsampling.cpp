@@ -97,7 +97,8 @@ void grid_subsampling(vector<PointXYZ>& original_points,
 		if (use_classes)
 		{
 		    for (int i = 0; i < ldim; i++)
-		        subsampled_classes.push_back(max_element(v.second.labels[i].begin(), v.second.labels[i].end())->first);
+		        subsampled_classes.push_back(max_element(v.second.labels[i].begin(), v.second.labels[i].end(),
+		        [](const pair<int, int>&a, const pair<int, int>&b){return a.second < b.second;})->first);
 		}
 	}
 

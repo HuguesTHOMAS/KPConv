@@ -140,10 +140,6 @@ class Semantic3DDataset(Dataset):
         self.test_path = join(self.path, 'ply_full/reduced-8')
         #self.test_path = join(self.path, 'ply_full/semantic-8')
 
-        # List of training and test files
-        self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
-        self.test_files = np.sort([join(self.test_path, f) for f in listdir(self.test_path) if f[-4:] == '.ply'])
-
         # Proportion of validation scenes (chose validation split = 6 for final networks)
         # self.all_splits=[0, 1, 4, 2, 3, 4, 3, 0, 1, 2, 3, 4, 2, 0, 1]
         self.all_splits = [0, 1, 4, 5, 3, 4, 3, 0, 1, 2, 3, 4, 2, 0, 5]
@@ -175,6 +171,10 @@ class Semantic3DDataset(Dataset):
         ###################
 
         self.prepare_data()
+
+        # List of training and test files
+        self.train_files = np.sort([join(self.train_path, f) for f in listdir(self.train_path) if f[-4:] == '.ply'])
+        self.test_files = np.sort([join(self.test_path, f) for f in listdir(self.test_path) if f[-4:] == '.ply'])
 
     def prepare_data(self):
         """

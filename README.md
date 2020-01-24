@@ -78,6 +78,7 @@ Our code uses the <a href="https://github.com/jlblancoc/nanoflann">nanoflann</a>
 Our code is released under MIT License (see LICENSE file for details).
 
 ## Updates
+* 24/01/2020: Bug fixes
 * 01/10/2019: Adding visualization scripts.
 * 23/09/2019: Adding pretrained models for NPM3D and S3DIS datasets.
 * 03/05/2019: Bug found with TF 1.13 and CUDA 10.
