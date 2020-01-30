@@ -101,7 +101,9 @@ class ModelTrainer:
             restorer = tf.train.Saver(restore_vars)
             restorer.restore(self.sess, restore_snap)
             print("Model restored.")
-
+        
+        file_writer = tf.summary.FileWriter(join(model.saving_path,"tensorboard"), self.sess.graph)
+        file_writer.close()
     def add_train_ops(self, model):
         """
         Add training ops on top of the model

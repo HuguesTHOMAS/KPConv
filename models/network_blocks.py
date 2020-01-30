@@ -1038,19 +1038,21 @@ def assemble_CNN_blocks(inputs, config, dropout_prob):
 
     # Loop over consecutive blocks
     block_in_layer = 0
+    tf_scope_layer = 0
     for block_i, block in enumerate(config.architecture):
 
         # Detect change to next layer
         if np.any([tmp in block for tmp in ['pool', 'strided', 'upsample', 'global']]):
-
             # Save this layer features
             F += [features]
+            block_in_layer = 0
+            tf_scope_layer += 1
 
         # Detect upsampling block to stop
         if 'upsample' in block:
             break
 
-        with tf.variable_scope('layer_{:d}/{:s}_{:d}'.format(layer, block, block_in_layer)):
+        with tf.variable_scope('layer_{:d}/{:s}_{:d}'.format(tf_scope_layer, block, block_in_layer)):
 
             # Get the function for this layer
             block_ops = get_block_ops(block)
@@ -1074,8 +1076,7 @@ def assemble_CNN_blocks(inputs, config, dropout_prob):
             layer += 1
             r *= 2
             fdim *= 2
-            block_in_layer = 0
-
+            
         # Save feature vector after global pooling
         if 'global' in block:
             # Save this layer features
