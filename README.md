@@ -23,6 +23,10 @@ We found an internal bug inside tf.matmul operation. It returns absurd values li
 apparition of NaNs in our network. We advise to use the code with CUDA 9.0 and TF 1.12.
 More info in [issue #15](https://github.com/HuguesTHOMAS/KPConv/issues/15)
 
+**SemanticKitti Code:** You can download the code used for SemanticKitti submission [here](https://drive.google.com/open?id=12npkHHnqzhhl5i-2q_RD-Cw_urUdWC0J).
+It is not clean, has very few explanations, and and could be buggy. Use it only if you are familiar with KPConv
+implementation.
+
 ## Installation
 
 A step-by-step installation guide for Ubuntu 16.04 is provided in [INSTALL.md](./INSTALL.md). Windows is currently 
@@ -78,6 +82,7 @@ Our code uses the <a href="https://github.com/jlblancoc/nanoflann">nanoflann</a>
 Our code is released under MIT License (see LICENSE file for details).
 
 ## Updates
+* 17/02/2020: Added a link to SemanticKitti code
 * 24/01/2020: Bug fixes
 * 01/10/2019: Adding visualization scripts.
 * 23/09/2019: Adding pretrained models for NPM3D and S3DIS datasets.
