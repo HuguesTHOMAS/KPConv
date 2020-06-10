@@ -174,7 +174,7 @@ class ModelTrainer:
                 inserted_value = tf.zeros((1,), dtype=tf.int32)
                 for ign_label in model.config.ignored_label_inds:
                     reducing_list = tf.concat([reducing_list[:ign_label], inserted_value, reducing_list[ign_label:]], 0)
-                    new_labels = tf.gather(reducing_list, new_labels)
+                new_labels = tf.gather(reducing_list, new_labels)
 
                 # Metrics
                 self.correct_prediction = tf.nn.in_top_k(new_logits, new_labels, 1)
