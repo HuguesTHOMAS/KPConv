@@ -229,7 +229,7 @@ class ScannetDataset(Dataset):
                     segIndices = np.array(segmentations['segIndices'])
 
                     # Get objects classes
-                    with open(join(path, scene, scene + '_vh_clean.aggregation.json'), 'r') as f:
+                    with open(join(path, scene, scene + 'aggregation.json'), 'r') as f:
                         aggregation = json.load(f)
 
                     # Loop on object to classify points
