@@ -1,0 +1,9 @@
+Data
+results
+cpp_wrappers/cpp_subsampling/build
+*.so
+__pycache__
+.vscode
+tensorboard
+*.pyc
+*.ply
